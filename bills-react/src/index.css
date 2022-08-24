@@ -1,0 +1,99 @@
+@font-face {
+    font-weight: 400;
+    font-family: 'PT Sans';
+    src: url("./fonts/PT_Sans-Web-Regular.ttf");
+}
+
+@font-face {
+    font-weight: 700;
+    font-family: 'PT Sans';
+    src: url("./fonts/PT_Sans-Web-Bold.ttf");
+}
+
+body {
+    width: 100vw;
+    font-family: 'PT Sans', sans-serif;
+    margin: 0px;
+    position: relative; 
+    min-height: 100vh;
+}
+
+/* #page-container {
+    position: relative;
+    min-height: 100vh;
+} */
+
+/*  ---------------------------- */
+
+
+h1 {
+    font-size: 42px;
+    margin: 0px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 26px;
+    margin: 0px;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0px;
+    color: rgba(58, 58, 58, 1);
+}
+
+h3.bold {
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0px;
+    color: rgba(58, 58, 58, 1);
+}
+
+h4.bold {
+    font-weight: bold;
+}
+
+h5 {
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0px;
+    color: rgba(58, 58, 58, 1);
+}
+
+h5.bold {
+    font-weight: bold;
+}
+
+h6 {
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0px;
+    color: rgba(58, 58, 58, 1);
+}
+
+.lightColorText {
+    color: rgba(113, 113, 113, 1);
+    
+}
+
+input, select {
+    background: #F8F8F8;
+    border: 0.2px solid #000000;
+    border-radius: 3px;
+    outline: none;
+
+    height: 30px;
+    width: 100%;
+
+    font-family: 'PT Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: #3A3A3A;
+}

@@ -1,0 +1,47 @@
+div.editBill-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+div.editBill-header-input {
+    display: flex;
+    justify-content: flex-start;
+}
+
+input.editBill-header-input-name {
+    margin-right: 30px;
+    width: 10vw;
+}
+
+input.editBill-header-input-date {
+    margin-right: 30px;
+    width: 8vw;
+
+    height: 100%;
+}
+
+select.editBill-header-input-costType {
+    margin-right: 60px;
+    width: 7vw;
+
+    height: 100%;  
+}
+
+select.editBill-header-input-payer {
+    margin-right: 60px;
+    width: 7vw;
+
+    height: 100%;
+}
+
+div.editBill-header-btns {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#delete-bill-btn {
+    margin-right: 50px;
+    cursor: pointer;
+}

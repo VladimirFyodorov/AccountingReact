@@ -1,0 +1,24 @@
+div.billsList-usersList-item {
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+    cursor: pointer;
+}
+
+div.billsList-usersList-item:hover {
+    background-color: rgba(231, 231, 231, 1);
+    margin-left: -28px;
+    padding-left: 28px;
+}
+
+div.billsList-usersList-item-current {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: rgba(231, 231, 231, 1);
+    margin-left: -28px;
+    padding-left: 28px;
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+}

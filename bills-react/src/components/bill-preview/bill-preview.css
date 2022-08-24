@@ -1,0 +1,96 @@
+
+div.billPreview {
+    width: 25vw;
+    padding: 30px;
+    padding-top: 40px;
+    padding-bottom: 60px;
+
+    border-radius: 4px;
+    box-shadow: 2px 6px 20px 2px rgba(0, 0, 0, 0.15);
+}
+
+.billPreview-header {
+    margin-bottom: 10px;
+}
+
+div.billPreview-paymentBox {
+    margin-bottom: 30px;
+}
+
+div.billPreview-paymentBox-item {
+    margin-bottom: 7px;
+    display: flex;
+}
+
+.billPreview-paymentBox-item-name {
+    width: 50%
+}
+
+.billPreview-paymentBox-item-cost {
+    width: 25%;
+    text-align: right;
+}
+
+.billPreview-paymentBox-item-items {
+    width: 25%;
+    text-align: right;
+}
+
+.billPreview-shareBox {
+    margin-top: 30px;
+}
+
+.billPreview-shareBox-item {
+    margin-bottom: 5px;
+    display: flex;
+}
+
+.billPreview-shareBox-item-name, .billPreview-shareBox-total-name {
+    width: 40%;
+}
+
+.billPreview-shareBox-item-amount, .billPreview-shareBox-total-amount {
+    width: 15%;
+    text-align: right;
+}
+
+div.billPreview-shareBox-item-isPayed-True {
+    border-radius: 50%;
+    border: 0.5px solid rgba(113, 113, 113, 1);
+    text-align: center;
+    margin-left: 15px;
+    padding-top: 5px;
+    height: 11px;
+    width: 16px;
+
+    font-size: 7px;
+    font-weight: bold;
+    color: rgba(58, 58, 58, 1);
+}
+
+div.billPreview-shareBox-item-isPayed-False {
+    border-radius: 50%;
+    border: 0px solid rgba(113, 113, 113, 1);
+    text-align: center;
+    margin-left: 15px;
+    padding-top: 5px;
+    height: 11px;
+    width: 16px;
+
+    font-size: 7px;
+    font-weight: bold;
+    color: rgba(58, 58, 58, 1);
+}
+
+.isPayed-False {
+    color: rgba(58, 58, 58, 1);
+}
+
+.isPayed-True {
+    color: rgba(113, 113, 113, 1);
+}
+
+div.billPreview-shareBox-total {
+    margin-top: 20px;
+    display: flex;
+}

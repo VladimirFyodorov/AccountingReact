@@ -1,0 +1,20 @@
+#content-wrap {
+    padding-bottom: 2.5rem;
+    padding-left: 8vw;
+    padding-top: 65px;
+
+    display: flex;
+    justify-content: flex-start;
+}
+
+a {
+    color: inherit;
+    /* blue colors for links too */
+    text-decoration: inherit;
+    /* no underline */
+}
+
+div.mainBill {
+    margin-left: 40px;
+    margin-top: 13px;
+}

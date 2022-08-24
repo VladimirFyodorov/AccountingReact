@@ -1,0 +1,33 @@
+div.editBill-share-row {
+    width: 44vw;
+    height: 30px;
+
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+    
+    display: flex;
+    justify-content: flex-start;
+}
+
+div.editBill-share-name {
+    width: 17vw;
+}
+
+div.editBill-share-amount {
+    width: 5vw;
+}
+
+div.editBill-shares-btns {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    
+    margin-top: -40px;
+}
+
+/* ------------- EDIT MODE ---------- */
+
+div.editBill-share-input-amount {
+    width: 5vw;
+    padding-left: 40px;
+}

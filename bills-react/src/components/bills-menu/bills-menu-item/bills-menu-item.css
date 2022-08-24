@@ -1,0 +1,27 @@
+div.billsList-item {
+    height: 27px;
+    margin-left: -16px;
+    padding-left: 16px;
+    padding-top: 8px;
+
+    cursor: pointer;
+}
+
+div.billsList-item:hover {
+    background-color: rgba(248, 248, 248, 1);
+}
+
+div.billsList-item-current {
+    height: 27px;
+    margin-left: -16px;
+    padding-left: 16px;
+    padding-top: 8px;
+
+    cursor: pointer;
+
+    background-color: rgba(248, 248, 248, 1);
+}
+
+.billsList-item-current-name {
+    color: rgba(49, 139, 222, 1);
+}

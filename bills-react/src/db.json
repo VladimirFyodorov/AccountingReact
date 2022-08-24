@@ -1,0 +1,1415 @@
+{
+	"usersData":[
+		{
+			"id": 1,
+			"username": "vladimir",
+			"first_name": "Vladimir",
+			"last_name": "Fyodorov",
+			"email": "vfyodorov@nes.ru"
+		},
+		{
+			"id": 2,
+			"username": "Sofi",
+			"first_name": "Sofi",
+			"last_name": "Ulianova",
+			"email": "Ulianova.sofia@gmail.com"
+		},
+		{
+			"id": 3,
+			"username": "gosha",
+			"first_name": "Georgy",
+			"last_name": "Pyankov",
+			"email": "pyankov+bills@hey.com"
+		},
+		{
+			"id": 4,
+			"username": "dima",
+			"first_name": "Dmitry",
+			"last_name": "Rudchenko",
+			"email": "74194@mail.ru"
+		}
+	],
+	"billsData":[
+		{"id": 127,
+		"name": "New bill 2",
+		"date": "2022-08-08",
+		"comment": "Food",
+		"lender": {
+				"id": 1,
+				"username": "vladimir",
+				"first_name": "Vladimir",
+				"last_name": "Fyodorov",
+				"email": "vfyodorov@nes.ru"
+		},
+		"items": [
+				{
+						"id": 373,
+						"name": "Item 1",
+						"amount": 1,
+						"cost_per_exemplar": 100,
+						"bill": 127,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 0,
+										"amount": 1,
+										"share": 0.01,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 655,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 657,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 656,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 376,
+						"name": "Item 2",
+						"amount": 1,
+						"cost_per_exemplar": 100,
+						"bill": 127,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 667,
+										"amount": 25,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 669,
+										"amount": 25,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 666,
+										"amount": 25,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 665,
+										"amount": 25,
+										"share": 0.25,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 26,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Sofi",
+						"amount": 58,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 58,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 58,
+						"share": 0,
+						"is_payed": "False"
+				}
+		]
+},
+{
+		"id": 126,
+		"name": "New bill 1",
+		"date": "2022-08-08",
+		"comment": "Food",
+		"lender": {
+				"id": 1,
+				"username": "vladimir",
+				"first_name": "Vladimir",
+				"last_name": "Fyodorov",
+				"email": "vfyodorov@nes.ru"
+		},
+		"items": [
+				{
+						"id": 372,
+						"name": "Item 1",
+						"amount": 1,
+						"cost_per_exemplar": 100,
+						"bill": 126,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 0,
+										"amount": 1,
+										"share": 0.01,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 652,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 653,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 654,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 374,
+						"name": "Item 2",
+						"amount": 1,
+						"cost_per_exemplar": 100,
+						"bill": 126,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 0,
+										"amount": 1,
+										"share": 0.01,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 658,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 660,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 659,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 2,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Sofi",
+						"amount": 66,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 66,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 66,
+						"share": 0,
+						"is_payed": "False"
+				}
+		]
+},
+{
+		"id": 125,
+		"name": "New bill",
+		"date": "2022-08-08",
+		"comment": "Food",
+		"lender": {
+				"id": 1,
+				"username": "vladimir",
+				"first_name": "Vladimir",
+				"last_name": "Fyodorov",
+				"email": "vfyodorov@nes.ru"
+		},
+		"items": [
+				{
+						"id": 375,
+						"name": "Item 1",
+						"amount": 1,
+						"cost_per_exemplar": 100,
+						"bill": 125,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 0,
+										"amount": 1,
+										"share": 0.01,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 661,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 662,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 663,
+										"amount": 33,
+										"share": 0.33,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 1,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Sofi",
+						"amount": 33,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 33,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 33,
+						"share": 0,
+						"is_payed": "False"
+				}
+		]
+},
+{
+		"id": 124,
+		"name": "New bill 3",
+		"date": "2022-08-08",
+		"comment": "Food",
+		"lender": {
+				"id": 1,
+				"username": "vladimir",
+				"first_name": "Vladimir",
+				"last_name": "Fyodorov",
+				"email": "vfyodorov@nes.ru"
+		},
+		"items": [],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Sofi",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Georgy",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+},
+{
+		"id": 122,
+		"name": "Конверсейшн",
+		"date": "2022-07-29",
+		"comment": "",
+		"lender": {
+				"id": 4,
+				"username": "dima",
+				"first_name": "Dmitry",
+				"last_name": "Rudchenko",
+				"email": "74194@mail.ru"
+		},
+		"items": [
+				{
+						"id": 368,
+						"name": "Латте",
+						"amount": 1,
+						"cost_per_exemplar": 390,
+						"bill": 122,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 646,
+										"amount": 390,
+										"share": 1.0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 0,
+										"share": 0.0,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 369,
+						"name": "Торт",
+						"amount": 1,
+						"cost_per_exemplar": 690,
+						"bill": 122,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 648,
+										"amount": 228,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 649,
+										"amount": 228,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 235,
+										"share": 0.34,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 370,
+						"name": "Коктейль",
+						"amount": 1,
+						"cost_per_exemplar": 750,
+						"bill": 122,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 647,
+										"amount": 375,
+										"share": 0.5,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 375,
+										"share": 0.5,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 371,
+						"name": "Чаевые",
+						"amount": 1,
+						"cost_per_exemplar": 180,
+						"bill": 122,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 650,
+										"amount": 59,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 651,
+										"amount": 59,
+										"share": 0.33,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 61,
+										"share": 0.34,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 677,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Sofi",
+						"amount": 662,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 671,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+},
+{
+		"id": 121,
+		"name": "Чай гринфилд в пакетиках",
+		"date": "2022-07-26",
+		"comment": "",
+		"lender": {
+				"id": 4,
+				"username": "dima",
+				"first_name": "Dmitry",
+				"last_name": "Rudchenko",
+				"email": "74194@mail.ru"
+		},
+		"items": [
+				{
+						"id": 367,
+						"name": "Чай",
+						"amount": 2,
+						"cost_per_exemplar": 95,
+						"bill": 121,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 645,
+										"amount": 95,
+										"share": 0.5,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 95,
+										"share": 0.5,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 95,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Sofi",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Georgy",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 95,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+},
+{
+		"id": 120,
+		"name": "Китайский ресторан на ХЗ",
+		"date": "2022-08-01",
+		"comment": "",
+		"lender": {
+				"id": 4,
+				"username": "dima",
+				"first_name": "Dmitry",
+				"last_name": "Rudchenko",
+				"email": "74194@mail.ru"
+		},
+		"items": [
+				{
+						"id": 366,
+						"name": "Том ям",
+						"amount": 1,
+						"cost_per_exemplar": 430,
+						"bill": 120,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 644,
+										"amount": 430,
+										"share": 1.0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 0,
+										"share": 0.0,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Sofi",
+						"amount": 430,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+},
+{
+		"id": 119,
+		"name": "Лавка",
+		"date": "2022-07-29",
+		"comment": "",
+		"lender": {
+				"id": 4,
+				"username": "dima",
+				"first_name": "Dmitry",
+				"last_name": "Rudchenko",
+				"email": "74194@mail.ru"
+		},
+		"items": [
+				{
+						"id": 361,
+						"name": "Вода",
+						"amount": 2,
+						"cost_per_exemplar": 119,
+						"bill": 119,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 627,
+										"amount": 60,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 630,
+										"amount": 60,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 119,
+										"share": 0.5,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 362,
+						"name": "Бумажные полотенца",
+						"amount": 1,
+						"cost_per_exemplar": 155,
+						"bill": 119,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 629,
+										"amount": 39,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 632,
+										"amount": 39,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 633,
+										"amount": 39,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 39,
+										"share": 0.25,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 363,
+						"name": "Доставка",
+						"amount": 1,
+						"cost_per_exemplar": 99,
+						"bill": 119,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 641,
+										"amount": 25,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 643,
+										"amount": 25,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 50,
+										"share": 0.5,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 364,
+						"name": "Заправка для борща-1",
+						"amount": 1,
+						"cost_per_exemplar": 105,
+						"bill": 119,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 634,
+										"amount": 26,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 635,
+										"amount": 16,
+										"share": 0.15,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 63,
+										"share": 0.6,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 365,
+						"name": "Заправка для борща-2",
+						"amount": 1,
+						"cost_per_exemplar": 105,
+						"bill": 119,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 636,
+										"amount": 26,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 639,
+										"amount": 26,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 640,
+										"amount": 26,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 26,
+										"share": 0.25,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 176,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Sofi",
+						"amount": 165,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 65,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 296,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+},
+{
+		"id": 118,
+		"name": "Каша быстрая",
+		"date": "2022-07-15",
+		"comment": "За каши Вове",
+		"lender": {
+				"id": 4,
+				"username": "dima",
+				"first_name": "Dmitry",
+				"last_name": "Rudchenko",
+				"email": "74194@mail.ru"
+		},
+		"items": [
+				{
+						"id": 360,
+						"name": "Каша",
+						"amount": 2,
+						"cost_per_exemplar": 186,
+						"bill": 118,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 626,
+										"amount": 279,
+										"share": 0.75,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 93,
+										"share": 0.25,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 279,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Sofi",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Georgy",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 93,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+},
+{
+		"id": 117,
+		"name": "Лавка",
+		"date": "2022-08-01",
+		"comment": "Вода",
+		"lender": {
+				"id": 4,
+				"username": "dima",
+				"first_name": "Dmitry",
+				"last_name": "Rudchenko",
+				"email": "74194@mail.ru"
+		},
+		"items": [
+				{
+						"id": 358,
+						"name": "Вода",
+						"amount": 1,
+						"cost_per_exemplar": 119,
+						"bill": 117,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 620,
+										"amount": 30,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 621,
+										"amount": 30,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 622,
+										"amount": 30,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 30,
+										"share": 0.25,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 359,
+						"name": "Вода-2",
+						"amount": 1,
+						"cost_per_exemplar": 119,
+						"bill": 117,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 623,
+										"amount": 30,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 624,
+										"amount": 30,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 625,
+										"amount": 30,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 30,
+										"share": 0.25,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 60,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Sofi",
+						"amount": 60,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 60,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 60,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+},
+{
+		"id": 115,
+		"name": "Лавка",
+		"date": "2022-07-26",
+		"comment": "Вода",
+		"lender": {
+				"id": 4,
+				"username": "dima",
+				"first_name": "Dmitry",
+				"last_name": "Rudchenko",
+				"email": "74194@mail.ru"
+		},
+		"items": [
+				{
+						"id": 351,
+						"name": "Вода",
+						"amount": 1,
+						"cost_per_exemplar": 135,
+						"bill": 115,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 599,
+										"amount": 34,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 600,
+										"amount": 34,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 68,
+										"share": 0.5,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 34,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Sofi",
+						"amount": 34,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 68,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+},
+{
+		"id": 114,
+		"name": "Вкусвилл",
+		"date": "2022-07-26",
+		"comment": "Жарил курицу",
+		"lender": {
+				"id": 4,
+				"username": "dima",
+				"first_name": "Dmitry",
+				"last_name": "Rudchenko",
+				"email": "74194@mail.ru"
+		},
+		"items": [
+				{
+						"id": 350,
+						"name": "Курица",
+						"amount": 1,
+						"cost_per_exemplar": 641,
+						"bill": 114,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 596,
+										"amount": 224,
+										"share": 0.35,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 597,
+										"amount": 96,
+										"share": 0.15,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 320,
+										"share": 0.5,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 224,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Sofi",
+						"amount": 96,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 0,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 320,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+},
+{
+		"id": 113,
+		"name": "Ozon Хозтовары WC",
+		"date": "2022-07-29",
+		"comment": "",
+		"lender": {
+				"id": 4,
+				"username": "dima",
+				"first_name": "Dmitry",
+				"last_name": "Rudchenko",
+				"email": "74194@mail.ru"
+		},
+		"items": [
+				{
+						"id": 348,
+						"name": "Средства для чистки, таблетки, нейтрализатор запаха",
+						"amount": 1,
+						"cost_per_exemplar": 1327,
+						"bill": 113,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 592,
+										"amount": 332,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 593,
+										"amount": 332,
+										"share": 0.25,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 594,
+										"amount": 332,
+										"share": 0.25,
+										"is_payed": "True"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 332,
+										"share": 0.25,
+										"is_payed": "False"
+								}
+						]
+				},
+				{
+						"id": 349,
+						"name": "Кондиционер для белья",
+						"amount": 1,
+						"cost_per_exemplar": 229,
+						"bill": 113,
+						"payments": [
+								{
+										"name": "Vladimir",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Sofi",
+										"id": 0,
+										"amount": 0,
+										"share": 0,
+										"is_payed": "False"
+								},
+								{
+										"name": "Georgy",
+										"id": 595,
+										"amount": 229,
+										"share": 1.0,
+										"is_payed": "True"
+								},
+								{
+										"name": "Dmitry",
+										"id": 0,
+										"amount": 0,
+										"share": 0.0,
+										"is_payed": "False"
+								}
+						]
+				}
+		],
+		"payments_total": [
+				{
+						"name": "Vladimir",
+						"amount": 332,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Sofi",
+						"amount": 332,
+						"share": 0,
+						"is_payed": "False"
+				},
+				{
+						"name": "Georgy",
+						"amount": 561,
+						"share": 0,
+						"is_payed": "True"
+				},
+				{
+						"name": "Dmitry",
+						"amount": 332,
+						"share": 0,
+						"is_payed": "True"
+				}
+		]
+	}]
+}
