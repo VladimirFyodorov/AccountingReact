@@ -1,0 +1,500 @@
+div.main {
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+div.billsListBox {
+    width: 17vw;
+}
+
+div.billsList-head {
+    height: 50px;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+div.billsList-usersList {
+    width: 180px;
+    padding-left: 28px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-left: -28px;
+    background-color: rgba(248, 248, 248, 1);
+}
+
+
+div.billsList-usersList-item {
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+    cursor: pointer;
+}
+
+div.billsList-usersList-item:hover {
+    background-color: rgba(231, 231, 231, 1);
+    margin-left: -28px;
+    padding-left: 28px;
+}
+
+div.billsList-usersList-item-current {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: rgba(231, 231, 231, 1);
+    margin-left: -28px;
+    padding-left: 28px;
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+div.billsList {
+    margin-top: 0px;
+}
+
+div.billsList-item {
+    height: 27px;
+    margin-left: -16px;
+    padding-left: 16px;
+    padding-top: 8px;
+
+    cursor: pointer;
+}
+
+div.billsList-item:hover {
+    background-color: rgba(248, 248, 248, 1);
+}
+
+
+div.billsList-showMore {
+    margin-top: 16px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#showMore {
+    cursor: pointer;
+}
+
+#showLess {
+    cursor: pointer;
+}
+
+div.checkMark {
+    margin-left: -18px;
+    margin-right: 11px;
+}
+
+div.mainBill {
+    margin-left: 40px;
+    margin-top: 13px;
+}
+
+/* --------------------- Bill preview --------------------- */
+
+div.billPreview {
+    width: 25vw;
+    padding: 30px;
+    padding-top: 40px;
+    padding-bottom: 60px;
+
+    border-radius: 4px;
+    box-shadow: 2px 6px 20px 2px rgba(0, 0, 0, 0.15);
+}
+
+.billPreview-header {
+    margin-bottom: 10px;
+}
+
+div.billPreview-paymentBox {
+    margin-bottom: 30px;
+}
+
+div.billPreview-paymentBox-item {
+    margin-bottom: 7px;
+    display: flex;
+}
+
+.billPreview-paymentBox-item-name {
+    width: 50%
+}
+
+.billPreview-paymentBox-item-cost {
+    width: 25%;
+    text-align: right;
+}
+
+.billPreview-paymentBox-item-items {
+    width: 25%;
+    text-align: right;
+}
+
+.billPreview-shareBox {
+    margin-top: 30px;
+}
+
+.billPreview-shareBox-item {
+    margin-bottom: 5px;
+    display: flex;
+}
+
+.billPreview-shareBox-item-name, .billPreview-shareBox-total-name {
+    width: 40%;
+}
+
+.billPreview-shareBox-item-amount, .billPreview-shareBox-total-amount {
+    width: 15%;
+    text-align: right;
+}
+
+div.billPreview-shareBox-item-isPayed {
+    border-radius: 50%;
+    border: 0.5px solid rgba(113, 113, 113, 1);
+    text-align: center;
+    margin-left: 15px;
+    padding-top: 5px;
+    height: 11px;
+    width: 16px;
+
+    font-size: 7px;
+    font-weight: bold;
+    color: rgba(58, 58, 58, 1);
+}
+
+div.billPreview-shareBox-total {
+    margin-top: 20px;
+    display: flex;
+}
+
+
+
+/* input.create-bill, select.create-bill {
+    height: 30px;
+    width: 100%
+} */
+
+/* -------------- */
+
+button {
+    border: 2px solid rgba(113, 113, 113, 1);
+    border-radius: 10px;
+    height: 30px;
+
+    background-color: white;
+
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(113, 113, 113, 1);
+
+    padding-left: 25px;
+    padding-right: 25px;
+
+    cursor: pointer;
+}
+
+
+/* ------------------ ------------------ */
+/* ------------------ ------------------ */
+
+
+div.editBill {
+    width: 64vw;
+}
+
+/* ----- */
+div.editBill-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+div.editBill-header-input {
+    display: flex;
+    justify-content: flex-start;
+}
+
+input.editBill-header-input-name {
+    margin-right: 30px;
+    width: 10vw;
+}
+
+input.editBill-header-input-date {
+    margin-right: 30px;
+    width: 8vw;
+
+    height: 100%;
+}
+
+select.editBill-header-input-costType {
+    margin-right: 60px;
+    width: 7vw;
+
+    height: 100%;  
+}
+
+select.editBill-header-input-payer {
+    margin-right: 60px;
+    width: 7vw;
+
+    height: 100%;
+}
+
+div.editBill-header-btns {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#delete-bill-btn {
+    margin-right: 50px;
+    cursor: pointer;
+}
+
+/* ---- */
+div.editBill-payments {
+    margin-bottom: 30px;
+}
+
+div.editBill-payments-header {
+    margin-bottom: 20px; 
+}
+
+/* div.editBill-payments-box {
+} */
+
+div.editBill-payments-add, div.editBill-payment-row {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div.editBill-payments-add {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+div.editBill-payments-add-btns, div.editBill-payment-btns {
+    width: 20vw;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+div.editBill-payments-add-input, div.editBill-payment {
+    width: 50vw;
+    
+    display: flex;
+    justify-content: flex-start;
+}
+
+div.editBill-payments-add-input-name, div.editBill-payment-name {
+    width: 15vw;
+
+}
+
+div.editBill-payments-add-input-cost, div.editBill-payment-cost {
+    width: 7vw;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items:center;
+
+}
+
+div.editBill-payments-add-input-items, div.editBill-payment-items {
+    width: 5vw;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items:center;
+
+}
+
+div.editBill-payments-add-input-add-btn, div.editBill-payment-edit-btn {
+    width: 11vw;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+}
+
+div.editBill-payments-btns {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    
+    margin-top: -40px;
+}
+
+button.editBill-payment-cancel-btn {
+    margin-left: 50px;
+}
+
+.editBill-payment-delete-btn {
+    cursor: pointer;
+}
+
+/* ------------ edit row ------------ */
+
+input.editBill-payment-name-input, #editBill-payments-add-input-name{
+    width: auto;
+    margin-right: 35px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
+input.editBill-payment-cost-input, #editBill-payments-add-input-cost {
+    margin-top: 14px;
+    margin-bottom: 14px;
+
+    margin-left: 20px;
+    margin-right: 3px;
+
+    text-align: right;
+}
+
+input.editBill-payment-items-input, #editBill-payments-add-input-items {
+    /* width: auto; */
+    margin-top: 14px;
+    margin-bottom: 14px;
+
+    margin-left: 25px;
+
+    text-align: right;
+}
+
+h4.editBill-payment-items-input {
+    margin-right: -45px;
+    margin-left: 5px;
+}
+
+/* div.editBill-payments-add-input-add-btn {
+
+} */
+#add-payment-btn {
+    margin-right: -50px;
+}
+
+/* ------------------ ------------------ */
+/* ------------------ shares ------------------ */
+
+/* div.editBill-shares {
+
+} */
+div.editBill-shares-header {
+    margin-bottom: 10px;
+}
+
+
+div.editBill-shares-menu {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    margin-bottom: 20px;
+}
+
+
+div.editBill-shares-menu-item-first {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 20px;
+    background: #FFFFFF;
+    border: 0.5px solid #C5C5C5;
+    border-radius: 6px 0px 0px 6px;
+    cursor: pointer;
+}
+
+div.editBill-shares-menu-item-first:hover {
+    background: #D7D7D7;
+}
+
+div.editBill-shares-menu-item-middle {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 15px;
+    background: #FFFFFF;
+    border: 0.5px solid #C5C5C5;
+    border-radius: 0px;
+    cursor: pointer;
+}
+
+div.editBill-shares-menu-item-middle:hover {
+    background: #D7D7D7;
+}
+
+div.editBill-shares-menu-item-last {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 20px;
+    background: #FFFFFF;
+    border: 0.5px solid #C5C5C5;
+    border-radius: 0px 6px 6px 0px;
+    cursor: pointer;
+}
+
+div.editBill-shares-menu-item-last:hover {
+    background: #D7D7D7;
+}
+/* ----------------- */
+
+div.editBill-shares-users {
+    width: 44vw;
+    padding-left: 17vw;
+
+    margin-top: -30px;
+    margin-bottom: 10px;
+
+    display: flex;
+}
+
+div.editBill-shares-user {
+    width: 5vw;
+    padding-left: 40px;
+}
+
+/* div.editBill-shares-box {
+} */
+
+div.editBill-share-row {
+    width: 44vw;
+    height: 30px;
+
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+    
+    display: flex;
+    justify-content: flex-start;
+}
+
+div.editBill-share-name {
+    width: 17vw;
+}
+
+div.editBill-share-amount {
+    width: 5vw;
+}
+
+div.editBill-shares-btns {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    
+    margin-top: -40px;
+}
+
+/* ------------- EDIT MODE ---------- */
+
+div.editBill-share-input-amount {
+    width: 5vw;
+    padding-left: 40px;
+}
