@@ -1,42 +1,26 @@
-// import jQuery from 'jquery';
+import jQuery from 'jquery';
 
-// function getCookie(name) {
-//   // using jQuery
-//   // https://stackoverflow.com/questions/46008318/csrf-token-in-ajax-post-api
-//   var cookieValue = null;
-//   if (document.cookie && document.cookie !== '') {
-//     var cookies = document.cookie.split(';');
-//     for (var i = 0; i < cookies.length; i++) {
-//       var cookie = jQuery.trim(cookies[i]);
-//       // Does this cookie string begin with the name we want?
-//       if (cookie.substring(0, name.length + 1) === (name + '=')) {
-//         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//         break;
-//       }
-//     }
-//   }
-//   return cookieValue;
-// }
-
-// const fetchWithCRF = fetch(url, {
-//   method: 'POST',
-//   headers: {
-//       "X-CSRFToken": csrftoken,
-//       "content-type": "application/json",
-//   },
-//   body: JSON.stringify(data)
-// })
-// .then(response => response.json())
-// .then((json) => {
-//   resetFormAndClose();
-//   saveLocallyAddBill(json);
-
-//   ////////// editing bill ////////////
-// })
-// .catch(err => console.log(err));
+function getCookie(name) {
+  // using jQuery
+  // https://stackoverflow.com/questions/46008318/csrf-token-in-ajax-post-api
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = jQuery.trim(cookies[i]);
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
 
 
 export default class Service {
+  _apiBase = location.protocol + '//' + location.host;
 
   getBillsData() {
     return new Promise(function (resolve, reject) {
@@ -44,7 +28,6 @@ export default class Service {
       let request = new XMLHttpRequest();
   
       request.open('GET', `${location.protocol + '//' + location.host}/bills/api/get_bills`);
-      // request.open('GET', `${location.protocol + '//' + 'localhost:8000'}/bills/api/get_bills`);
       request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
       request.send();
   
@@ -79,6 +62,58 @@ export default class Service {
         }
       };
     });
+  }
+
+  async makePostPutDeleteRequest(method, apiPath, data) {
+    const url = `${this._apiBase}${apiPath}`,
+      csrftoken = getCookie('csrftoken');
+
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        'X-CSRFToken': csrftoken,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok){
+      throw new Error(`Could not ${method.toLowerCase()} from ${url}, received ${response.status}`);
+    }
+
+    return await response.json();
+  }
+
+  async makeDeleteRequest(method, apiPath, data) {
+    const url = `${this._apiBase}${apiPath}`,
+      csrftoken = getCookie('csrftoken');
+
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        'X-CSRFToken': csrftoken,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok){
+      throw new Error(`Could not ${method.toLowerCase()} from ${url}, received ${response.status}`);
+    }
+
+    return 'ok';
+  }
+
+  async postBill(data) {
+    return await this.makePostPutDeleteRequest('POST', '/bills/api/bill', data);
+  }
+
+  async putBill(data) {
+    return await this.makePostPutDeleteRequest('PUT', '/bills/api/bill', data);
+  }
+
+  async deleteBill(data) {
+    return await this.makeDeleteRequest('DELETE', '/bills/api/bill', data);
   }
 }
 

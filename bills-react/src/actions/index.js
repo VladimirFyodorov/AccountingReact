@@ -42,6 +42,22 @@ const saveAddBillFormData = (addBillFormData) => {
   return {type: 'SAVE_ADD_BILL_FORM_DATA', payload: addBillFormData};
 };
 
+const clearAddBillFormData = () => {
+  return {type: 'CLEAR_ADD_BILL_FORM_DATA'};
+};
+
+const postBill = (payload) => {
+  return {type: 'POST_BILL', payload: payload};
+};
+
+const putBill = (payload) => {
+  return {type: 'PUT_BILL', payload: payload};
+};
+
+const deleteBill = (payload) => {
+  return {type: 'DELETE_BILL', payload: payload};
+};
+
 export {
   billsDataRequested,
   billsDataLoaded,
@@ -53,5 +69,9 @@ export {
   hideBillPreview,
   startBillEdit,
   toggleShowAddBillForm,
-  saveAddBillFormData
+  saveAddBillFormData,
+  clearAddBillFormData,
+  postBill,
+  putBill,
+  deleteBill
 };

@@ -1,28 +1,35 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-const HeaderInEditMode = ({toggleEditMode}) => {
+const HeaderInEditMode = ({onPut, changeUnsavedData}) => {
   const {billEditData, usersData, costTypes} = useSelector((state) => state);
 
   const [{name, date}] = billEditData;
   return (
     <div className="editBill-header">
       <div className='editBill-header-input'>
-        <input type="text" className='editBill-header-input-name' defaultValue={name}/>
-        <input type="date" className='editBill-header-input-date' defaultValue={date}/>
+        <input type="text" 
+          className='editBill-header-input-name' 
+          defaultValue={name}
+          onChange={(e) => changeUnsavedData({name: e.target.value})}/>
+        <input type="date" 
+          className='editBill-header-input-date' 
+          defaultValue={date}
+          onChange={(e) => changeUnsavedData({date: e.target.value})}/>
         <CostTypeInput
           costTypes={costTypes}
-          billEditData={billEditData}/>
+          billEditData={billEditData}
+          changeUnsavedData={changeUnsavedData}/>
         <PayerInput
           usersData={usersData}
-          billEditData={billEditData}/>
+          billEditData={billEditData}
+          changeUnsavedData={changeUnsavedData}/>
       </div>
 
       <div className="editBill-header-btns">
         <button 
           id="edit-header-btn"
-          onClick={toggleEditMode}
-        >
+          onClick={onPut}>
           Save
         </button>
       </div>
@@ -31,11 +38,13 @@ const HeaderInEditMode = ({toggleEditMode}) => {
 };
   
   
-const CostTypeInput = ({costTypes, billEditData}) => {
+const CostTypeInput = ({costTypes, billEditData, changeUnsavedData}) => {
   let [{comment}] = billEditData;
   comment = (comment == '')? costTypes[0]: comment;
   return (
-    <select className='editBill-header-input-costType'>
+    <select 
+      className='editBill-header-input-costType' 
+      onChange={(e) => changeUnsavedData({comment: e.target.value})}>
       <option value={comment}>{comment}</option>
       {
         costTypes.filter(type => type != comment).map(type => {
@@ -47,11 +56,13 @@ const CostTypeInput = ({costTypes, billEditData}) => {
 };
 
 
-const PayerInput = ({usersData, billEditData}) => {
+const PayerInput = ({usersData, billEditData, changeUnsavedData}) => {
   const [{lender}] = billEditData;
 
   return (
-    <select className='editBill-header-input-payer'>
+    <select 
+      className='editBill-header-input-payer'
+      onChange={(e) => changeUnsavedData({lender: parseInt(e.target.value)})}>
       <option value={lender.id}>{lender.first_name}</option>
       {
         usersData.filter(user => user.id != lender.id).map(user => {

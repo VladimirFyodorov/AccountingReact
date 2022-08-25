@@ -1,10 +1,36 @@
 import React, { Component } from 'react';
 import { connect, useSelector } from 'react-redux';
-import { saveAddBillFormData } from '../../actions';
+import { saveAddBillFormData, clearAddBillFormData } from '../../actions';
+import { toggleShowAddBillForm, postBill } from '../../actions';
+import WithService from '../hoc';
 import './add-bill-form.css';
 
 
 class AddBillForm extends Component {
+  constructor(props) {
+    super(props);
+    this.onSave = this.onSave.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+  }
+
+  onSave() {
+    const {Service, toggleShowAddBillForm, clearAddBillFormData, postBill} = this.props;
+    const {name, costType, date, payer} = this.props.addBillFormData;
+    const data = {name, comment: costType, date, lender: payer};
+  
+    Service.postBill(data)
+      .then(res => {
+        postBill(res);
+        toggleShowAddBillForm();
+        clearAddBillFormData();
+      })
+      .catch(err => console.log(err));
+  }
+
+  onCancel() {
+    this.props.clearAddBillFormData();
+    this.props.toggleShowAddBillForm();
+  }
 
   render() {
     if (!this.props.showAddBillForm) {
@@ -13,7 +39,6 @@ class AddBillForm extends Component {
       );
     }
 
-    console.log(this.props.addBillFormData);
     const {saveAddBillFormData} = this.props;
 
     return (
@@ -22,8 +47,8 @@ class AddBillForm extends Component {
         <CostTypesInput saveAddBillFormData={saveAddBillFormData}/>
         <BillDateInput saveAddBillFormData={saveAddBillFormData}/>
         <PayerInput saveAddBillFormData={saveAddBillFormData}/>
-        <CancelBtn/>
-        <CreateBillBtn/>
+        <CancelBtn onCancel={this.onCancel}/>
+        <CreateBillBtn onSave={this.onSave}/>
       </div>
     );
   }
@@ -37,9 +62,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {saveAddBillFormData};
+const mapDispatchToProps = {
+  saveAddBillFormData, clearAddBillFormData, toggleShowAddBillForm, postBill
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBillForm);
+export default WithService()(connect(mapStateToProps, mapDispatchToProps)(AddBillForm));
 
 
 const BillNameInput = ({saveAddBillFormData}) => {
@@ -147,22 +174,22 @@ const PayerInput = ({saveAddBillFormData}) => {
 };
 
 
-const CancelBtn = () => {
+const CancelBtn = ({onCancel}) => {
   return (
     <div className="add-bill-form-item">
       <div className="add-bill-form-btn">
-        <h5 id="cancel-bill-btn">Cancel</h5>
+        <h5 id="cancel-bill-btn" onClick={onCancel}>Cancel</h5>
       </div>
     </div>
   );
 };
 
 
-const CreateBillBtn = () => {
+const CreateBillBtn = ({onSave}) => {
   return (
     <div className="add-bill-form-middle-item">
       <div className="add-bill-form-btn">
-        <button type="submit" id="add-bill-btn">Create bill</button>
+        <button type="submit" id="add-bill-btn" onClick={onSave}>Create bill</button>
       </div>
     </div>
   );
