@@ -34,6 +34,14 @@ const startBillEdit = (billData) => {
   return {type: 'START_BILL_EDIT', payload: billData};
 };
 
+const toggleShowAddBillForm = () => {
+  return {type: 'TOGGLE_SHOW_ADD_BILL_FORM'};
+};
+
+const saveAddBillFormData = (addBillFormData) => {
+  return {type: 'SAVE_ADD_BILL_FORM_DATA', payload: addBillFormData};
+};
+
 export {
   billsDataRequested,
   billsDataLoaded,
@@ -43,5 +51,7 @@ export {
   usersDataError,
   showBillPreview,
   hideBillPreview,
-  startBillEdit
+  startBillEdit,
+  toggleShowAddBillForm,
+  saveAddBillFormData
 };

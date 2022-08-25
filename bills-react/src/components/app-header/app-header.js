@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import LogoutWindow from '../logout-window';
 import './app-header.css';
+import { toggleShowAddBillForm } from '../../actions';
 
-export default class AppHeader extends Component {
+class AppHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {showLogoutWindow: false};
@@ -40,7 +42,11 @@ export default class AppHeader extends Component {
             </div>
           </div>
           <div className="header-right-menu">
-            <div className="header-right-menu-add-bill-box">+$</div>
+            <div 
+              className="header-right-menu-add-bill-box"
+              onClick={this.props.toggleShowAddBillForm}>
+              +$
+            </div>
             <div onClick={this.toggleLogoutWindow} className="header-right-menu-user-box">
               VF
             </div>
@@ -51,3 +57,13 @@ export default class AppHeader extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    usersData: state.usersData
+  };
+};
+
+const mapDispatchToProps = { toggleShowAddBillForm };
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);

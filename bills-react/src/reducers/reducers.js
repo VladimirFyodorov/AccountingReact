@@ -5,7 +5,9 @@ const initialState = {
   billsData: [],
   billPreviewData: [],
   billEditData: [],
-  costTypes:['Food', 'Entertainment', 'Health and Beauty', 'Other']
+  costTypes:['Food', 'Entertainment', 'Health and Beauty', 'Other'],
+  showAddBillForm: false,
+  addBillFormData: {}
 };
 
 
@@ -55,6 +57,16 @@ const reducer = (state = initialState, action = {}) => {
   case 'START_BILL_EDIT':
     return {
       ...state, billEditData: [action.payload]
+    };
+
+  case 'TOGGLE_SHOW_ADD_BILL_FORM':
+    return {
+      ...state, showAddBillForm: !state.showAddBillForm
+    };
+
+  case 'SAVE_ADD_BILL_FORM_DATA':
+    return {
+      ...state, addBillFormData: {...state.addBillFormData, ...action.payload}
     };
 
   default:
