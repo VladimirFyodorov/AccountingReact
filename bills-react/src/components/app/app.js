@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import AppHeader from '../app-header';
 import AppFooter from '../app-footer';
+import AddBillForm from '../add-bill-form';
 import BillsMenu from '../bills-menu/bills-menu';
 import BillPreview from '../bill-preview';
 import BillEdit from '../bill-edit/bill-edit';
@@ -63,6 +64,7 @@ class App extends Component {
         <div id="content-wrap">
           <BillsMenu/>
           <div className="mainBill">
+            <AddBillForm/>
             <BillPreview/>
             <BillEdit/>
           </div>
