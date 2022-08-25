@@ -2,7 +2,7 @@
 
 Backend of accounting app you can find separatelly on https://github.com/VladimirFyodorov/Accounting
 
-Backend of accounting app you can find separatelly on https://github.com/VladimirFyodorov/AccountingReact
+Frontend of accounting app you can find separatelly on https://github.com/VladimirFyodorov/AccountingOnlyReact
 
 
 Download repository
