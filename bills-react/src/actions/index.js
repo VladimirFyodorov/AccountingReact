@@ -58,6 +58,14 @@ const deleteBill = (payload) => {
   return {type: 'DELETE_BILL', payload: payload};
 };
 
+const userDataLoaded = (payload) => {
+  return {type: 'USER_DATA_LOADED', payload};
+};
+
+const accountDataLoaded = (payload) => {
+  return {type: 'ACCOUNT_DATA_LOADED', payload};
+};
+
 export {
   billsDataRequested,
   billsDataLoaded,
@@ -73,5 +81,7 @@ export {
   clearAddBillFormData,
   postBill,
   putBill,
-  deleteBill
+  deleteBill,
+  userDataLoaded,
+  accountDataLoaded
 };

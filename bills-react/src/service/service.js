@@ -27,7 +27,7 @@ export default class Service {
   
       let request = new XMLHttpRequest();
   
-      request.open('GET', `${location.protocol + '//' + location.host}/bills/api/get_bills`);
+      request.open('GET', `${location.protocol + '//' + location.host}/bills_api/get_bills`);
       request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
       request.send();
   
@@ -48,7 +48,28 @@ export default class Service {
   
       let request = new XMLHttpRequest();
   
-      request.open('GET', `${location.protocol + '//' + location.host}/bills/api/get_all_users`);
+      request.open('GET', `${location.protocol + '//' + location.host}/bills_api/get_all_users`);
+      request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+      request.send();
+  
+      request.onload = function () {
+        if (request.readyState === 4) {
+          if (request.status == 200) {
+            resolve(JSON.parse(this.response));
+          } else {
+            reject();
+          }
+        }
+      };
+    });
+  }
+
+  async makeGetRequest(apiPath) {
+    return new Promise(function (resolve, reject) {
+  
+      let request = new XMLHttpRequest();
+  
+      request.open('GET', `${location.protocol + '//' + location.host}${apiPath}`);
       request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
       request.send();
   
@@ -78,7 +99,7 @@ export default class Service {
     });
 
     if (!response.ok){
-      throw new Error(`Could not ${method.toLowerCase()} from ${url}, received ${response.status}`);
+      return new Error(`Could not ${method.toLowerCase()} from ${url}, received ${response.status}`);
     }
 
     return await response.json();
@@ -105,15 +126,39 @@ export default class Service {
   }
 
   async postBill(data) {
-    return await this.makePostPutDeleteRequest('POST', '/bills/api/bill', data);
+    return await this.makePostPutDeleteRequest('POST', '/bills_api/bill', data);
   }
 
   async putBill(data) {
-    return await this.makePostPutDeleteRequest('PUT', '/bills/api/bill', data);
+    return await this.makePostPutDeleteRequest('PUT', '/bills_api/bill', data);
   }
 
   async deleteBill(data) {
-    return await this.makeDeleteRequest('DELETE', '/bills/api/bill', data);
+    return await this.makeDeleteRequest('DELETE', '/bills_api/bill', data);
+  }
+
+  async checkEmail(data) {
+    return await this.makePostPutDeleteRequest('PUT', '/users_api/check_email', data);
+  }
+
+  async login(data) {
+    return await this.makePostPutDeleteRequest('PUT', '/users_api/login', data);
+  }
+
+  async logout(data) {
+    return await this.makePostPutDeleteRequest('PUT', '/users_api/logout', data);
+  }
+
+  async getUser() {
+    return await this.makeGetRequest('/users_api/get_user');
+  }
+
+  async getAccountData() {
+    return await this.makeGetRequest('/users_api/get_account_data');
+  }
+
+  async closeSettlements(data) {
+    return await this.makePostPutDeleteRequest('PUT', '/users_api/close_settlements', data);
   }
 }
 

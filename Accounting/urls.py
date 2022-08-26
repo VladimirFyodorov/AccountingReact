@@ -21,8 +21,9 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('users/', include('users.urls')),
-    path('bills/', include('bills.urls')),
-    path('api/', include('api.urls')),
-    path('bills_react/', TemplateView.as_view(template_name='index.html'))
+    path('login/', TemplateView.as_view(template_name='index.html')),
+    path('home/', TemplateView.as_view(template_name='index.html')),
+    path('bills/', TemplateView.as_view(template_name='index.html')),
+    path('users_api/', include('users.urls')),
+    path('bills_api/', include('bills.urls'))
 ]

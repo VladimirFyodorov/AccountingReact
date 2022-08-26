@@ -7,7 +7,8 @@ const initialState = {
   billEditData: [],
   costTypes:['Food', 'Entertainment', 'Health and Beauty', 'Other'],
   showAddBillForm: false,
-  addBillFormData: {}
+  addBillFormData: {},
+  userData:{first_name: '', last_name: '', email:''}
 };
 
 
@@ -105,6 +106,16 @@ const reducer = (state = initialState, action = {}) => {
       ...state, billsData: [...billsBefore, ...billsAfter], billEditData: []
     };
   }
+
+  case 'USER_DATA_LOADED':
+    return {
+      ...state, userData: action.payload, loading: false, error: false
+    };
+  
+  case 'ACCOUNT_DATA_LOADED':
+    return {
+      ...state, accountData: action.payload, loading: false, error: false
+    };
 
   default:
     return state;

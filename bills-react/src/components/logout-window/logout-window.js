@@ -1,18 +1,17 @@
 import React from 'react';
 import './logout-window.css';
 
-const LogoutWindow = () => {
+const LogoutWindow = ({logout, userData}) => {
+  const fullName = `${userData.first_name} ${userData.last_name}`;
   return (
     <div className="account-popup-window">
       <div className="account-popup-window-textbox">
-        <h5 className="bold">Vladimir Fyodorov</h5>
-        <h6>vfyodorov@nes.ru</h6>
+        <h5 className="bold">{fullName}</h5>
+        <h6>{userData.email}</h6>
       </div>
-      <a href="/users/logout/">
-        <div className="account-popup-window-signountbox">
-          <h6>Sign out</h6>
-        </div>
-      </a>
+      <div className="account-popup-window-signountbox" onClick={logout}>
+        <h6>Sign out</h6>
+      </div>
     </div>
   );
 };

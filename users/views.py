@@ -101,9 +101,10 @@ def check_email(request):
 
     for user in get_user_model().objects.all():
         if user.email == email:
-            return Response(UserSerializer(user).data)
+            return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
     
     return JsonResponse({'message': 'Incorrect email'})
+
 
 
 @api_view(['PUT'])
@@ -114,9 +115,25 @@ def api_login(request):
 
     if user is not None:
         login(request, user)
-        return JsonResponse({'message': 'Logged in'})
+        return JsonResponse({'message': 'Logged in'}, status=status.HTTP_200_OK)
     
-    return JsonResponse({'message': 'Not logged'})
+    return JsonResponse({'message': 'Not logged'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+@api_view(['PUT'])
+def api_logout(request):
+    logout(request)    
+    return JsonResponse({'message': 'Logged out'}, status=status.HTTP_200_OK)
+
+
+
+@api_view(['GET'])
+def get_user(request):
+    if request.user.is_authenticated:
+        return Response(UserSerializer(request.user).data, status=status.HTTP_200_OK)
+    return Response({'message': 'No user'}, status=status.HTTP_404_NOT_FOUND)
+
 
 
 @api_view(['GET'])

@@ -1,0 +1,98 @@
+div.form {
+    margin-left: 42vw;
+    width: 423px;
+    height: 495px;
+    margin-top: 30px;
+    padding: 50px;
+    border-radius: 4px;
+    box-shadow: 2px 6px 20px 2px rgba(0, 0, 0, 0.15);
+}
+
+
+h5.input-hint {
+    color:rgba(113, 113, 113, 1);
+}
+
+h5.errorMsg {
+    margin-bottom: -18px;
+}
+
+
+input.login {
+    width: 100%;
+    border-width: 0px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(220, 220, 220, 1);
+    height:30px;
+    outline: none;
+}
+
+input.login:focus {
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(49, 139, 222, 1);
+    background-color: white;
+}
+
+a.link {
+    text-decoration: none;
+    color: rgba(49, 139, 222, 1);
+}
+
+div.input-box {
+    margin-top: 42px;
+}
+
+div.input {
+    display: flex;
+}
+
+button.btn-login {
+    width: 200px;
+    height:30px;
+    font-size: 14px;
+    font-weight: normal;
+    color: white;
+    background-color: rgba(49, 139, 222, 1);
+    margin-top: 22px;
+    margin-left: 223px;
+    border-width: 0px;
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+div.login-user-box {
+    display: flex;
+    /* justify-content: flex-start; */
+    margin-top: 32px;
+    margin-bottom: 40px;
+}
+
+div.login-user-box-circle {
+    border-radius: 50%;
+    border: 1px solid black;
+    text-align: center;
+    padding-top: 12px;
+    height: 43px;
+    width: 55px;
+    font-size: 26px;
+    font-weight: normal;
+    color: black;
+    line-height: 34px;
+}
+
+div.login-user-box-info {
+    margin: 10px;
+}
+
+#see-password-icon {
+    margin-top: 6px;
+    margin-left: -30px;
+    cursor: pointer;
+}
+
+div.checkMark-green {
+    margin-left: -20px;
+    margin-top: 10px;
+    border-color: rgba(7, 157, 49, 1);
+}
