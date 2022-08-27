@@ -1,6 +1,5 @@
 div.billsList-item {
     height: 27px;
-    margin-left: -16px;
     padding-left: 16px;
     padding-top: 8px;
 
@@ -13,7 +12,6 @@ div.billsList-item:hover {
 
 div.billsList-item-current {
     height: 27px;
-    margin-left: -16px;
     padding-left: 16px;
     padding-top: 8px;
 

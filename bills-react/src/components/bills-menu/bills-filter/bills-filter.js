@@ -5,7 +5,10 @@ import BillsFilterItem from '../bills-filter-item';
 class BillsFilter extends Component {
 
   render() {
-    const {usersData, filter, toggleFilter, toggleShowFilter} = this.props;
+    const {showFilter, usersData, filter, toggleFilter, toggleShowFilter} = this.props;
+    if (!showFilter) {
+      return (<></>);
+    }
 
     return (
       <div className="billsList-usersList">

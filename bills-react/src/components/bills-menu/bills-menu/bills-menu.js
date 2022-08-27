@@ -18,9 +18,6 @@ class BillsMenu extends Component {
     };
     this.toggleShowMore = this.toggleShowMore.bind(this);
     this.toggleShowFilter = this.toggleShowFilter.bind(this);
-    this.showSomeBills = this.showSomeBills.bind(this);
-    this.showFilter = this.showFilter.bind(this);
-    this.filteredBillsData = this.filteredBillsData.bind(this);
     this.toggleFilter = this.toggleFilter.bind(this);
   }
 
@@ -31,82 +28,50 @@ class BillsMenu extends Component {
     }));
   }
 
+  toggleFilter(first_name) {
+    this.setState({filter: first_name});
+  }
+
   toggleShowFilter() {
     this.setState(state => ({
       showFilter: !state.showFilter
     }));
   }
 
-  filteredBillsData() {
-    const {billsData} = this.props;
-    const {filter} = this.state;
-
+  filterBillsData(billsData, filter) {
     if (filter == 'All') {
       return billsData;
     }
-
     return billsData.filter((billData) => billData.lender.first_name == filter);
   }
 
-  toggleFilter(first_name) {
-    this.setState({filter: first_name});
-  }
-
-  showSomeBills() {
-    const billsMaxNum = this.filteredBillsData().length;
-    const billsNum = (this.state.showMore)? billsMaxNum: 5;
-    const {showBillPreview, hideBillPreview, startBillEdit} = this.props;
-
-    return (
-      <div className="billsList">
-        {this.filteredBillsData().slice(0, billsNum).map(billData => {
-          return (
-            <BillsMenuItem 
-              key={billData.id} 
-              billData={billData}
-              showBillPreview={showBillPreview}
-              hideBillPreview={hideBillPreview}
-              startBillEdit={startBillEdit}
-            />
-          );
-        })
-        }
-      </div>
-    );
-  }
-
-  showFilter() {
-    const {showFilter} = this.state;
-
-    if (showFilter) {
-      return <BillsFilter 
-        filter={this.state.filter}
-        toggleFilter={this.toggleFilter}
-        toggleShowFilter={this.toggleShowFilter}/>;
-    } else {
-      return <></>;
-    }
-  }
 
   render() {
-    const {showMore, showFilter} = this.state;
-    const showFilterArrowClass = (showFilter)? 'arrow up': 'arrow down';
-    const showMoreText = (showMore)? 'Show less': 'Show more';
+    const {showMore, showFilter, filter} = this.state;
+    const {billsData, showBillPreview, hideBillPreview, startBillEdit} = this.props;
+    const filteredBillsData = this.filterBillsData(billsData, filter);
 
     
     return (
       <div className="billsListBox">
-        <div className="billsList-head">
-          <h3 className="bold" id="billsArePayedBy">Bills are payed by</h3>
-          <i onClick={this.toggleShowFilter}
-            className={showFilterArrowClass}></i>
-        </div> 
-        {this.showFilter()}
-        {this.showSomeBills()}
-        <div className='billsList-showMore'>
-          <h5 onClick={this.toggleShowMore}
-            className="showMoreBtn bold"> {showMoreText}</h5>
-        </div>
+        <BillsMenuHeader
+          showFilter={showFilter}
+          toggleShowFilter={this.toggleShowFilter}/>
+        <BillsFilter 
+          filter={filter}
+          showFilter={showFilter}
+          toggleFilter={this.toggleFilter}
+          toggleShowFilter={this.toggleShowFilter}/>
+        <Bills
+          showMore={showMore}
+          startBillEdit={startBillEdit}
+          showBillPreview={showBillPreview}
+          hideBillPreview={hideBillPreview}
+          filteredBillsData={filteredBillsData}/>
+        <ShowMore
+          showMore={showMore}
+          toggleShowMore={this.toggleShowMore}
+          filteredBillsData={filteredBillsData}/>
       </div>
     );
   }
@@ -125,3 +90,58 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = { showBillPreview, hideBillPreview, startBillEdit };
 
 export default WithService()(connect(mapStateToProps, mapDispatchToProps)(BillsMenu));
+
+
+
+const BillsMenuHeader = ({showFilter, toggleShowFilter}) => {
+  const showFilterArrowClass = (showFilter)? 'arrow up': 'arrow down';
+  return (
+    <div className="billsList-head">
+      <h3 className="bold" id="billsArePayedBy">Bills are payed by</h3>
+      <i onClick={toggleShowFilter}
+        className={showFilterArrowClass}></i>
+    </div> 
+  );
+};
+
+
+
+const Bills = (props) => {
+  const {filteredBillsData, showMore} = props;
+  const {showBillPreview, hideBillPreview, startBillEdit} = props;
+  const billsMaxNum = filteredBillsData.length;
+  const billsNum = (showMore)? billsMaxNum: 5;
+
+  return (
+    <div className="billsList">
+      {filteredBillsData.slice(0, billsNum).map(billData => {
+        return (
+          <BillsMenuItem 
+            key={billData.id} 
+            billData={billData}
+            showBillPreview={showBillPreview}
+            hideBillPreview={hideBillPreview}
+            startBillEdit={startBillEdit}
+          />
+        );
+      })
+      }
+    </div>
+  );
+};
+
+
+
+const ShowMore = ({showMore, toggleShowMore, filteredBillsData}) => {
+  if (filteredBillsData.length <= 5) {
+    return (<></>);
+  }
+  const showMoreText = (showMore)? 'Show less': 'Show more';
+
+  return (
+    <div className='billsList-showMore'>
+      <h5 onClick={toggleShowMore}
+        className="showMoreBtn bold"> {showMoreText}</h5>
+    </div>
+  );
+};

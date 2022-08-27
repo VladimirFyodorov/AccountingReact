@@ -1,5 +1,6 @@
 div.editBill {
     width: 64vw;
+    z-index: 1;
 }
 
 button {

@@ -1,11 +1,10 @@
 #content-wrap {
-    padding-bottom: 2.5rem;
-    padding-left: 8vw;
     padding-top: 65px;
-
-    display: flex;
-    justify-content: flex-start;
+    padding-bottom: 2.5rem;
+    /* Footer height */
+    padding-left: 8vw;
 }
+
 
 a {
     color: inherit;
@@ -14,7 +13,8 @@ a {
     /* no underline */
 }
 
-div.mainBill {
-    margin-left: 40px;
-    margin-top: 13px;
+
+div.mainBox {
+    display: flex;
+    justify-content: flex-start;
 }

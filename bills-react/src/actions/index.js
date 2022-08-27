@@ -34,6 +34,10 @@ const startBillEdit = (billData) => {
   return {type: 'START_BILL_EDIT', payload: billData};
 };
 
+const toggleLogoutWindow = () => {
+  return {type: 'TOGGLE_LOGOUT_WINDOW'};
+};
+
 const toggleShowAddBillForm = () => {
   return {type: 'TOGGLE_SHOW_ADD_BILL_FORM'};
 };
@@ -66,6 +70,14 @@ const accountDataLoaded = (payload) => {
   return {type: 'ACCOUNT_DATA_LOADED', payload};
 };
 
+const accountStartEditBill = (payload) => {
+  return {type: 'ACCOUNT_START_EDIT_BILL', payload};
+};
+
+const accountEndEditBill = () => {
+  return {type: 'ACCOUNT_END_EDIT_BILL'};
+};
+
 export {
   billsDataRequested,
   billsDataLoaded,
@@ -76,6 +88,7 @@ export {
   showBillPreview,
   hideBillPreview,
   startBillEdit,
+  toggleLogoutWindow,
   toggleShowAddBillForm,
   saveAddBillFormData,
   clearAddBillFormData,
@@ -83,5 +96,7 @@ export {
   putBill,
   deleteBill,
   userDataLoaded,
-  accountDataLoaded
+  accountDataLoaded,
+  accountStartEditBill,
+  accountEndEditBill
 };

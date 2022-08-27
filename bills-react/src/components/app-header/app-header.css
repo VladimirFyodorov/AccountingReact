@@ -88,3 +88,8 @@ div.header-right-menu-user-box {
 
     cursor: pointer;
 }
+
+div.under-header-box {
+    display: flex;
+    justify-content: flex-end;
+}

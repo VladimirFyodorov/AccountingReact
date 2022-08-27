@@ -1,0 +1,64 @@
+
+/* ------------ bill -------------- */
+div.billBox {
+    flex-grow: 1;
+    flex-basis: 0px;
+
+    margin-right: 8vw;
+    margin-top: 20px;
+}
+div.billBox-header {
+    margin-bottom: 12px;
+}
+
+div.billBox-backBtn {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#billBox-backBtn {
+    cursor: pointer;
+}
+
+i.arrow {
+    height: 0px;
+    width: 0px;
+    margin-top: 4px;
+
+    border-color: rgba(113, 113, 113, 1);
+}
+
+div.billBox-paymentsBox-row {
+    margin-bottom: 10px;
+}
+
+div.billBox-paymentsBox-row-name {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.billBox-paymentsBox-row-amount {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.billBox-btnBox {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#billBox-editBtn {
+    background: #F8F8F8;
+    border: 0.2px solid #FFFFFF;
+    border-radius: 10px;
+
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+
+    margin-left: 40px;
+
+
+    color: #717171;
+}

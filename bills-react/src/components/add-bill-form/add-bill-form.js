@@ -17,12 +17,19 @@ class AddBillForm extends Component {
     const {Service, toggleShowAddBillForm, clearAddBillFormData, postBill} = this.props;
     const {name, costType, date, payer} = this.props.addBillFormData;
     const data = {name, comment: costType, date, lender: payer};
+    const hostIsBills = (location.host=='bills');
   
     Service.postBill(data)
       .then(res => {
-        postBill(res);
-        toggleShowAddBillForm();
-        clearAddBillFormData();
+        if (hostIsBills) {
+          postBill(res);
+          toggleShowAddBillForm();
+          clearAddBillFormData();
+        } else {
+          // if user is on home page redirect to bills page
+          const url = `${location.protocol}//${location.host}/bills?id=${res.id}`;
+          window.location.href = url;
+        }
       })
       .catch(err => console.log(err));
   }

@@ -8,7 +8,8 @@ import Error from '../error';
 
 import AppHeader from '../app-header';
 import AppFooter from '../app-footer';
-import AddBillForm from '../add-bill-form';
+import AccountTotalBox from '../account-total-box';
+import AccountBill from '../account-bill';
 
 
 class HomePage extends Component {
@@ -59,10 +60,9 @@ class HomePage extends Component {
       <>
         <AppHeader/>
         <div id="content-wrap">
-          {/* <AddBillForm/> */}
           <div className="mainBox">
-            <AddBillForm/>
-            This is home page
+            <AccountBill/>
+            <AccountTotalBox/>
           </div>
         </div>
         <AppFooter/>

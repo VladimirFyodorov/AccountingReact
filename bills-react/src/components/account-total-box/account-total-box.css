@@ -1,0 +1,121 @@
+div.totalBox {
+    padding-top: 20px;
+    padding-right: 8vw;
+
+    flex-grow: 4;
+    flex-basis: 0px;
+}
+
+div.totalBox-row {
+    display: flex;
+    justify-content: space-between;
+
+    height: 35px;
+}
+
+
+div.totalBox-totalRow {
+    display: flex;
+    justify-content: space-between;
+
+    height: 35px;
+
+    margin-top: 10px;
+}
+
+div.totalBox-row-nameAndAmount {
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+
+    width: 30%
+}
+
+div.totalBox-row-nameAndAmount-name {
+    align-items: center;
+}
+
+div.totalBox-row-NameAndAmount-amount {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+div.totalBox-row-btns {
+    display: flex;
+    justify-content: flex-end;
+    align-items:center;
+}
+
+button.totalBox-row-btns-pay {
+    width: 140px;
+    height: 30px;
+    text-align: center;
+    background: #FFFFFF;
+    color: #717171;
+    border: 2px solid #717171;
+    border-radius: 10px;
+
+    font-weight: 700;
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+button.totalBox-row-btns-pay:hover {
+    background: #717171;
+    color: #FFFFFF;
+}
+
+.totalBox-row-btns-showBills {
+    color: #717171;
+    text-decoration: dashed underline;
+    cursor: pointer;
+    margin-right: 30px;
+}
+
+.totalBox-row-btns-showBills:hover {
+    color: rgba(58, 58, 58, 1);
+}
+
+/* bill preview row */
+div.totalBox-billPreviewRow {
+    display: flex;
+    justify-content: flex-start;
+
+    height: 35px;
+    cursor: pointer;
+}
+
+div.totalBox-billPreviewRow:hover {
+    background-color: #F8F8F8;
+}
+
+div.totalBox-billPreviewRow-nameAndAmount {
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+
+    width: 30%;
+}
+
+div.totalBox-billPreviewRow-nameAndAmount-name {
+    align-items: center;
+    padding-left: 30px;
+}
+
+div.totalBox-billPreviewRow-NameAndAmount-amount {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+div.totalBox-billPreviewRow-items {
+    padding-left: 8vw;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: 16vw;
+}

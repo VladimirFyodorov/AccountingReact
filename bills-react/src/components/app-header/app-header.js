@@ -1,36 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import AddBillForm from '../add-bill-form';
 import LogoutWindow from '../logout-window';
 import './app-header.css';
-import { toggleShowAddBillForm } from '../../actions';
-import WithService from '../hoc';
+import { toggleShowAddBillForm, toggleLogoutWindow } from '../../actions';
 
 class AppHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {showLogoutWindow: false};
-    this.toggleLogoutWindow = this.toggleLogoutWindow.bind(this);
-    this.logout = this.logout.bind(this);
-  }
-
-  toggleLogoutWindow() {
-    this.setState(state => ({
-      showLogoutWindow: !state.showLogoutWindow}
-    ));
-  }
-
-  logout() {
-    this.props.Service.logout()
-      .then(() => {
-        sessionStorage.setItem('status','loggedOut');
-        window.location.replace(`${location.protocol}//${location.host}/login`);
-      })
-      .catch((err) => console.log(err));
-  }
-
   render() {
-    const {showLogoutWindow} = this.state;
-    let {userData} = this.props;
+    const {userData} = this.props;
     const initials = userData.first_name.slice(0, 1) + userData.last_name.slice(0, 1);
 
     return (
@@ -46,12 +23,17 @@ class AppHeader extends Component {
               onClick={this.props.toggleShowAddBillForm}>
               +$
             </div>
-            <div onClick={this.toggleLogoutWindow} className="header-right-menu-user-box">
+            <div 
+              onClick={this.props.toggleLogoutWindow} 
+              className="header-right-menu-user-box">
               {initials}
             </div>
           </div>
         </header>
-        {showLogoutWindow?<LogoutWindow userData={userData} logout={this.logout}/>:<></>}
+        <div className='under-header-box'>
+          <AddBillForm/>
+          <LogoutWindow/>
+        </div>
       </>
     );
   }
@@ -63,9 +45,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = { toggleShowAddBillForm };
+const mapDispatchToProps = { toggleShowAddBillForm, toggleLogoutWindow };
 
-export default WithService()(connect(mapStateToProps, mapDispatchToProps)(AppHeader));
+export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);
 
 
 const HeaderItem = ({text, url}) => {

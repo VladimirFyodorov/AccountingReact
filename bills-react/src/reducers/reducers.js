@@ -6,9 +6,12 @@ const initialState = {
   billPreviewData: [],
   billEditData: [],
   costTypes:['Food', 'Entertainment', 'Health and Beauty', 'Other'],
+  showLogoutWindow: false,
   showAddBillForm: false,
   addBillFormData: {},
-  userData:{first_name: '', last_name: '', email:''}
+  userData:{first_name: '', last_name: '', email:''},
+  accountHasBillEditData: false,
+  accountBillEditData: {}
 };
 
 
@@ -59,10 +62,15 @@ const reducer = (state = initialState, action = {}) => {
     return {
       ...state, billEditData: [action.payload]
     };
+  
+  case 'TOGGLE_LOGOUT_WINDOW':
+    return {
+      ...state, showLogoutWindow: !state.showLogoutWindow, showAddBillForm:false
+    };
 
   case 'TOGGLE_SHOW_ADD_BILL_FORM':
     return {
-      ...state, showAddBillForm: !state.showAddBillForm
+      ...state, showAddBillForm: !state.showAddBillForm, showLogoutWindow:false
     };
 
   case 'SAVE_ADD_BILL_FORM_DATA':
@@ -115,6 +123,16 @@ const reducer = (state = initialState, action = {}) => {
   case 'ACCOUNT_DATA_LOADED':
     return {
       ...state, accountData: action.payload, loading: false, error: false
+    };
+  
+  case 'ACCOUNT_START_EDIT_BILL':
+    return {
+      ...state, accountBillEditData: action.payload, accountHasBillEditData: true
+    };
+
+  case 'ACCOUNT_END_EDIT_BILL':
+    return {
+      ...state, accountBillEditData: {}, accountHasBillEditData: false
     };
 
   default:

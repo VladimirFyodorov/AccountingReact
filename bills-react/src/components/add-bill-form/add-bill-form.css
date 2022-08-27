@@ -1,9 +1,13 @@
 div.add-bill-form {
+    position:fixed;
     width: 62vw;
     height: 60px;
     padding: 25px;
     padding-top: 35px;
-    margin-bottom: 30px;
+    margin-right: 8vw;
+    margin-top: 54px;
+    z-index: 2;
+    background-color: white;
 
     display: flex;
     justify-content: space-between;
