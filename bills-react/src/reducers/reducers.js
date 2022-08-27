@@ -10,6 +10,7 @@ const initialState = {
   showAddBillForm: false,
   addBillFormData: {},
   userData:{first_name: '', last_name: '', email:''},
+  accountData:[],
   accountHasBillEditData: false,
   accountBillEditData: {}
 };
@@ -125,15 +126,27 @@ const reducer = (state = initialState, action = {}) => {
       ...state, accountData: action.payload, loading: false, error: false
     };
   
-  case 'ACCOUNT_START_EDIT_BILL':
+  case 'ACCOUNT_START_EDIT_BILL': {
+    const lender = state.usersData.find(user => user.id == action.payload.lender);
     return {
-      ...state, accountBillEditData: action.payload, accountHasBillEditData: true
+      ...state, accountBillEditData: {...action.payload, lender}, accountHasBillEditData: true
     };
+  }
 
   case 'ACCOUNT_END_EDIT_BILL':
     return {
       ...state, accountBillEditData: {}, accountHasBillEditData: false
     };
+
+  case 'CLOSE_SETTLEMENTS': {
+    const index = state.accountData.findIndex(user => user.id == action.payload);
+    const beforeData = state.accountData.slice(0, index);
+    const data = {...state.accountData[index], total: 0, bills:[]};
+    const afterData = state.accountData.slice(index + 1);
+    return {
+      ...state, accountData:[...beforeData, data, ...afterData]
+    };
+  }
 
   default:
     return state;

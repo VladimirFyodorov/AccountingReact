@@ -91,6 +91,15 @@ div.totalBox-billPreviewRow:hover {
     background-color: #F8F8F8;
 }
 
+div.totalBox-billPreviewRow-current {
+    display: flex;
+    justify-content: flex-start;
+
+    height: 35px;
+    cursor: pointer;
+    background-color: #F8F8F8;
+}
+
 div.totalBox-billPreviewRow-nameAndAmount {
     display: flex;
     justify-content: space-between;

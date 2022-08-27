@@ -78,6 +78,10 @@ const accountEndEditBill = () => {
   return {type: 'ACCOUNT_END_EDIT_BILL'};
 };
 
+const closeSettlements = (payload) => {
+  return {type: 'CLOSE_SETTLEMENTS', payload};
+};
+
 export {
   billsDataRequested,
   billsDataLoaded,
@@ -98,5 +102,6 @@ export {
   userDataLoaded,
   accountDataLoaded,
   accountStartEditBill,
-  accountEndEditBill
+  accountEndEditBill,
+  closeSettlements
 };

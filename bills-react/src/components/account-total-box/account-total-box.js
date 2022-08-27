@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import './account-total-box.css';
-import { accountStartEditBill } from '../../actions';
+import { accountStartEditBill, closeSettlements } from '../../actions';
+import WithService from '../hoc';
 
 class AccountTotalBox extends Component {
   constructor(props) {
     super(props);
     this.state = {rowWithShowBills: -1}; //index of extended row
     this.changeRowWithShowBills = this.changeRowWithShowBills.bind(this);
+    this.closeSettlements = this.closeSettlements.bind(this);
   }
 
   changeRowWithShowBills(index) {
@@ -15,6 +17,12 @@ class AccountTotalBox extends Component {
       const value = (rowWithShowBills == index)? -1: index; // if same => close => -1
       return {rowWithShowBills: value};
     });
+  }
+
+  closeSettlements(id) {
+    this.props.Service.closeSettlements({counteragentId: id})
+      .then(() => this.props.closeSettlements(id))
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -26,7 +34,7 @@ class AccountTotalBox extends Component {
       );
     }
 
-    const {accountData, accountStartEditBill} = this.props;
+    const {accountData, accountBillEditData, accountStartEditBill} = this.props;
 
     return (
       <div className="totalBox">
@@ -38,6 +46,8 @@ class AccountTotalBox extends Component {
                 key={data.id}
                 index={index}
                 data={data}
+                closeSettlements={this.closeSettlements}
+                accountBillEditData={accountBillEditData}
                 accountStartEditBill={accountStartEditBill}
                 rowWithShowBills={this.state.rowWithShowBills}
                 changeRowWithShowBills={this.changeRowWithShowBills}/>
@@ -53,14 +63,15 @@ class AccountTotalBox extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    accountData: state.accountData
+    accountData: state.accountData,
+    accountBillEditData: state.accountBillEditData
   };
 };
 
-const mapDispatchToProps = { accountStartEditBill };
+const mapDispatchToProps = { accountStartEditBill, closeSettlements };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountTotalBox);
+export default WithService()(connect(mapStateToProps, mapDispatchToProps)(AccountTotalBox));
 
 
 
@@ -68,8 +79,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(AccountTotalBox);
 
 const AccountRow = (props) => {
   const {data, index, rowWithShowBills, changeRowWithShowBills } = props;
-  const { accountStartEditBill } = props;
-  const {name, total, bills} = data;
+  const { accountStartEditBill, accountBillEditData, closeSettlements } = props;
+  const {id, name, total, bills} = data;
   const btnText = (total<0)?'Pay':'Receive';
   const showBillsText = (rowWithShowBills==index)?'Hide bills':'Show bills';
   const totalText = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
@@ -92,15 +103,18 @@ const AccountRow = (props) => {
             onClick={() => changeRowWithShowBills(index)}>
             {showBillsText}
           </h5>
-          <button className="totalBox-row-btns-pay">{btnText}</button>
+          <button 
+            className="totalBox-row-btns-pay"
+            onClick={() => closeSettlements(id)}>{btnText}</button>
         </div>
       </div>
       {rowWithShowBills==index &&
         bills.map(bill => {
           return (
             <BillPreviewRow 
-              key={bill.id} 
+              key={bill.id}
               bill={bill}
+              isCurrent={accountBillEditData.id==bill.id}
               onClick={() => accountStartEditBill(bill)}/>
           );
         })
@@ -109,12 +123,15 @@ const AccountRow = (props) => {
   );
 };
 
-const BillPreviewRow = ({bill, onClick}) => {
+
+
+const BillPreviewRow = ({bill, isCurrent, onClick}) => {
   const formatedDate = bill.date.slice(5); //without year
   const billName = `${bill.name} ${formatedDate}`;
   const billCost = bill.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+  const rowClass = isCurrent?'totalBox-billPreviewRow-current':'totalBox-billPreviewRow';
   return (
-    <div className="totalBox-billPreviewRow" onClick={onClick}>
+    <div className={rowClass} onClick={onClick}>
       <div className="totalBox-billPreviewRow-nameAndAmount">
         <div className="totalBox-billPreviewRow-nameAndAmount-name">
           <h5>{billName}</h5>

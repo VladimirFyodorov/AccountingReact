@@ -15,10 +15,9 @@ class AccountBill extends Component {
     }
 
     const {accountBillEditData, accountEndEditBill} = this.props;
-    const {id, name, date, items} = accountBillEditData;
+    const {id, name, date, lender, items} = accountBillEditData;
     const formatedDate = date.slice(5); //without year
-    const billName = `${name} ${formatedDate}`;
-    console.log(accountBillEditData);
+    const billName = `${name} ${formatedDate} ${lender.first_name}`;
 
     return (
       <div className="billBox">
@@ -65,7 +64,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(AccountBill);
 
 const ItemRow = ({item}) => {
   const preatyfyNum = (num) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return parseInt(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   };
 
   const {name, cost_per_item, items, paying_amount, share} = item;
