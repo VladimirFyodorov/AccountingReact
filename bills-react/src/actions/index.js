@@ -62,6 +62,39 @@ const deleteBill = (payload) => {
   return {type: 'DELETE_BILL', payload: payload};
 };
 
+const prePostPayment = (payload) => {
+  return {type: 'PRE_POST_PAYMENT', payload: payload};
+};
+
+const prePutPayment = (payload) => {
+  return {type: 'PRE_PUT_PAYMENT', payload: payload};
+};
+
+const preDeletePayment = (payload) => {
+  return {type: 'PRE_DELETE_PAYMENT', payload: payload};
+};
+
+const postPayments = (payload) => {
+  return {type: 'POST_PAYMENTS', payload: payload};
+};
+
+const putPayments = (payload) => {
+  return {type: 'PUT_PAYMENTS', payload: payload};
+};
+
+const deletePayments = (payload) => {
+  return {type: 'DELETE_PAYMENTS', payload: payload};
+};
+
+const postShare = (payload) => {
+  return {type: 'POST_SHARE', payload: payload};
+};
+
+const putShare = (payload) => {
+  return {type: 'PUT_SHARE', payload: payload};
+};
+
+
 const userDataLoaded = (payload) => {
   return {type: 'USER_DATA_LOADED', payload};
 };
@@ -99,6 +132,14 @@ export {
   postBill,
   putBill,
   deleteBill,
+  prePostPayment,
+  prePutPayment,
+  preDeletePayment,
+  postPayments,
+  putPayments,
+  deletePayments,
+  postShare,
+  putShare,
   userDataLoaded,
   accountDataLoaded,
   accountStartEditBill,

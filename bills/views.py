@@ -195,46 +195,68 @@ def api_bill(request):
         bill_serializer = BillSerializer(bill, data=bill_data) 
         if bill_serializer.is_valid():
             bill_serializer.save()
-            return JsonResponse(bill_serializer.data) 
+            return JsonResponse(bill_serializer.data, status=status.HTTP_200_OK) 
         return JsonResponse(bill_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
 
 
 
 @api_view(['POST', 'PUT', 'DELETE'])
-def api_item(request):
+def api_payment(request):
+    items_data = request.data
+    response = []
+
     if request.method == 'POST':
-        item_data = request.data
-        item_serializer = ItemSerializer(data=item_data)
+        for item_data in items_data:
+            try: #serializer.is_valid() not always can catch errors
+                item_serializer = ItemSerializer(data=item_data)
 
-        if item_serializer.is_valid():
-            item_serializer.save()
-            return JsonResponse(item_serializer.data, status=status.HTTP_201_CREATED) 
-        return JsonResponse(item_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                if item_serializer.is_valid():
+                    item_serializer.save()
+                    response.append({'item':item_serializer.data, 'status':200})
+                else:
+                    response.append({'item':item_data, 'status':400})
+            except:
+                response.append({'item':item_data, 'status':400})
+        
+        return JsonResponse({'response': response}, status=status.HTTP_200_OK) 
 
-    item_data = request.data
-    item_id = item_data["id"]
-    try: 
-        item = Item.objects.get(id = item_id) 
-    except Item.DoesNotExist:
-        return JsonResponse({'message': 'The item does not exist'}, status=status.HTTP_404_NOT_FOUND) 
 
-    if request.method == 'DELETE': 
-        item.delete()
-        return JsonResponse(ItemSerializer(item).data, status=status.HTTP_204_NO_CONTENT)
-    
     if request.method == 'PUT':
-        item_serializer = ItemSerializer(item, data=item_data) 
-        if item_serializer.is_valid():
-            item_serializer.save()
-            return JsonResponse(item_serializer.data) 
-        return JsonResponse(item_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+        for item_data in items_data:
+            item_id = item_data["id"]
+            try: 
+                item = Item.objects.get(id = item_id)
+                item_serializer = ItemSerializer(item, data=item_data) 
 
+                if item_serializer.is_valid():
+                    item_serializer.save()
+                    response.append({'item':item_serializer.data, 'status':200})
+                else:
+                    response.append({'item':item_data, 'status':400})
+            except Item.DoesNotExist:
+                response.append({'item':item_data, 'status':400})
+
+        return JsonResponse({'response': response}, status=status.HTTP_200_OK) 
+
+
+    if request.method == 'DELETE':
+        for item_data in items_data:
+            item_id = item_data["id"]
+            try: 
+                item = Item.objects.get(id = item_id)
+                item_serializer = ItemSerializer(item)
+                item.delete()
+                response.append({'item':item_serializer.data, 'status':200})
+            except Item.DoesNotExist:
+                response.append({'item':item_data, 'status':400})
+                
+        return JsonResponse({'response': response}, status=status.HTTP_200_OK) 
 
 
 
 @api_view(['POST', 'PUT', 'DELETE'])
-def api_payment(request):
+def api_share(request):
 
     def hasDubblePayments(item, payer):
         payments = Item_Payment.objects.filter(item = item).filter(payer = payer).all()
@@ -272,7 +294,7 @@ def api_payment(request):
             payment_serializer = Item_PaymentSerializer(payment, data=payment_data)
             if payment_serializer.is_valid():
                 payment_serializer.save()
-                return JsonResponse(payment_serializer.data) 
+                return JsonResponse(payment_serializer.data, status=status.HTTP_200_OK) 
             return JsonResponse(payment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     else:
@@ -288,7 +310,7 @@ def api_payment(request):
                 return JsonResponse(payment_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(payment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # shares are deleted only by deleting Item therefore we don't need special API for this 
+    # shares are deleted only by deleting Payment therefore we don't need special API for this 
     # if request.method == 'DELETE': 
     #     payment.delete()
     #     return JsonResponse(Item_PaymentSerializer(payment).data, status=status.HTTP_204_NO_CONTENT)

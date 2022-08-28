@@ -77,7 +77,17 @@ const SharesBox = ({items, filter, editMode, lender}) => {
     return (
       <div className="editBill-shares-box">
         {
-          items.map(item => <ShareRowEditMode key={item.id} lender={lender} shareData={item}/>)
+          items.map((item, index) => {
+            if (item.isEditedType == 'DELETE') {
+              return (<></>);
+            }
+            return (
+              <ShareRowEditMode 
+                key={index} 
+                lender={lender} 
+                shareData={item}/>
+            );
+          })
         }
       </div>
     );
@@ -86,7 +96,17 @@ const SharesBox = ({items, filter, editMode, lender}) => {
   return (
     <div className="editBill-shares-box">
       {
-        items.map(item => <ShareRow key={item.id} filter={filter} shareData={item}/>)
+        items.map((item, index) => {
+          if (item.isEditedType == 'DELETE') {
+            return (<></>);
+          }
+          return (
+            <ShareRow 
+              key={index} 
+              filter={filter} 
+              shareData={item}/>
+          );
+        })
       }
     </div>
   );

@@ -12,6 +12,8 @@ class BillSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    amount = serializers.IntegerField(min_value = 0)
+    cost_per_exemplar = serializers.IntegerField(min_value = 0)
     class Meta:
         model = Item
         fields = '__all__'

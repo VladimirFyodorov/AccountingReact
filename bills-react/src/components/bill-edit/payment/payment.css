@@ -4,12 +4,15 @@ div.editBill-payments-add, div.editBill-payment-row {
     justify-content: space-between;
     align-items: center;
 }
-div.editBill-payments-add {
+
+
+/* div.editBill-payments-add {
     margin-top: 5px;
     margin-bottom: 5px;
-}
+} */
 
-div.editBill-payments-add-btns, div.editBill-payment-btns {
+/* div.editBill-payments-add-btns,  */
+div.editBill-payment-btns {
     width: 20vw;
 
     display: flex;
@@ -18,19 +21,31 @@ div.editBill-payments-add-btns, div.editBill-payment-btns {
 }
 
 
-div.editBill-payments-add-input, div.editBill-payment {
+/* div.editBill-payments-add-input, */
+div.editBill-payment {
     width: 50vw;
     
     display: flex;
     justify-content: flex-start;
 }
 
-div.editBill-payments-add-input-name, div.editBill-payment-name {
+div.editBill-payment-error {
+    width: 50vw;
+    
+    display: flex;
+    justify-content: flex-start;
+
+    background-color: #FFD6D5;
+}
+
+/* div.editBill-payments-add-input-name,  */
+div.editBill-payment-name {
     width: 15vw;
 
 }
 
-div.editBill-payments-add-input-cost, div.editBill-payment-cost {
+/* div.editBill-payments-add-input-cost,  */
+div.editBill-payment-cost {
     width: 7vw;
 
     display: flex;
@@ -39,7 +54,8 @@ div.editBill-payments-add-input-cost, div.editBill-payment-cost {
 
 }
 
-div.editBill-payments-add-input-items, div.editBill-payment-items {
+/* div.editBill-payments-add-input-items,  */
+div.editBill-payment-items {
     width: 5vw;
 
     display: flex;
@@ -48,7 +64,8 @@ div.editBill-payments-add-input-items, div.editBill-payment-items {
 
 }
 
-div.editBill-payments-add-input-add-btn, div.editBill-payment-edit-btn {
+/* div.editBill-payments-add-input-add-btn,  */
+div.editBill-payment-edit-btn {
     width: 11vw;
     display: flex;
     justify-content: flex-end;

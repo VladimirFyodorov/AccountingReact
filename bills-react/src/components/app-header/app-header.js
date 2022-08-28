@@ -14,8 +14,8 @@ class AppHeader extends Component {
       <>
         <header>
           <div className="header-menu">
-            <HeaderItem text='Home' url='/home/'/>
-            <HeaderItem text='Bills' url='/bills/'/>
+            <HeaderItem text='Home' url='/home'/>
+            <HeaderItem text='Bills' url='/bills'/>
           </div>
           <div className="header-right-menu">
             <div 

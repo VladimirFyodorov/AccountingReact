@@ -33,7 +33,7 @@ class LoginForm extends Component {
     this.props.Service.checkEmail({email})
       .then(res => {
         if (res.id > 0) {
-          this.setState({...res, checkMark: true});
+          this.setState({...res, email, checkMark: true});
         } else {
           this.clearState({email, errorMessage: this.state.errorMessage || ''});
         }
@@ -56,9 +56,13 @@ class LoginForm extends Component {
   onSubmitPassword() {
     const {username, password} = this.state;
     this.props.Service.login({username, password})
-      .then(() => {
-        sessionStorage.setItem('status','loggedIn');
-        window.location.replace(`${location.protocol}//${location.host}/home`);
+      .then(res => {
+        if (res.message == 'Logged in') {
+          sessionStorage.setItem('status','loggedIn');
+          window.location.replace(`${location.protocol}//${location.host}/home`);
+        } else {
+          this.setState({errorMessage: 'Wrong password'});
+        }
       })
       .catch(() => this.setState({errorMessage: 'Wrong password'}));
   }

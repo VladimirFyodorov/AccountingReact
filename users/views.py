@@ -100,7 +100,7 @@ def check_email(request):
     email = request.data["email"]
 
     for user in get_user_model().objects.all():
-        if user.email == email:
+        if user.email.lower() == email.lower():
             return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
     
     return JsonResponse({'message': 'Incorrect email'})

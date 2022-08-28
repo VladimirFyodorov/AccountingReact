@@ -137,6 +137,26 @@ export default class Service {
     return await this.makeDeleteRequest('DELETE', '/bills_api/bill', data);
   }
 
+  async postPayments(data) {
+    return await this.makePostPutDeleteRequest('POST', '/bills_api/payment', data);
+  }
+
+  async putPayments(data) {
+    return await this.makePostPutDeleteRequest('PUT', '/bills_api/payment', data);
+  }
+
+  async deletePayments(data) {
+    return await this.makePostPutDeleteRequest('DELETE', '/bills_api/payment', data);
+  }
+
+  async postShares(data) {
+    return await this.makePostPutDeleteRequest('POST', '/bills_api/share', data);
+  }
+
+  async putShares(data) {
+    return await this.makePostPutDeleteRequest('PUT', '/bills_api/share', data);
+  }
+
   async checkEmail(data) {
     return await this.makePostPutDeleteRequest('PUT', '/users_api/check_email', data);
   }

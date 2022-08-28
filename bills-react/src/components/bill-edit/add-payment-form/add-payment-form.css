@@ -4,18 +4,44 @@ div.editBill-payments-add{
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-div.editBill-payments-add {
+
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
-div.editBill-payments-add-btns {
+/* div.editBill-payments-add-btns {
     width: 20vw;
 
     display: flex;
     justify-content: flex-end;
     align-items: center;
+} */
+
+input.editBill-payments-add-input-name {
+    width: auto;
+    margin-right: 35px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
+input.editBill-payments-add-input-cost {
+    margin-top: 14px;
+    margin-bottom: 14px;
+
+    margin-left: 20px;
+    margin-right: 3px;
+
+    text-align: right;
+}
+
+input.editBill-payments-add-input-items {
+    /* width: auto; */
+    margin-top: 14px;
+    margin-bottom: 14px;
+
+    margin-left: 25px;
+
+    text-align: right;
 }
 
 
@@ -49,8 +75,8 @@ div.editBill-payments-add-input-items {
 
 }
 
-div.editBill-payments-add-input-add-btn{
-    width: 11vw;
+div.editBill-payments-add-input-add-btn {
+    width: 15vw;
     display: flex;
     justify-content: flex-end;
     align-items: center;

@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import Payment from '../payment';
 import AddBillForm from '../add-payment-form';
 import './payments.css';
+import WithService from '../../hoc';
+import {postPayments, putPayments, deletePayments} from '../../../actions';
 
 class Payments extends Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class Payments extends Component {
     this.state = {editMode: false, rowIsBeeingEdited: false};
     this.toggleEditMode = this.toggleEditMode.bind(this);
     this.toggleRowIsBeeingEdited = this.toggleRowIsBeeingEdited.bind(this);
+    this.onSave = this.onSave.bind(this);
   }
 
   toggleEditMode() {
@@ -23,6 +26,95 @@ class Payments extends Component {
     this.setState(({rowIsBeeingEdited}) => {
       return {rowIsBeeingEdited:!rowIsBeeingEdited};
     });
+  }
+
+  onSave() {
+    const { Service } = this.props;
+    const payments = this.props.billEditData[0].items;
+    const postPayments = payments
+      .filter(payment => payment.isEditedType == 'POST')
+      .map(({bill, name, amount, cost_per_exemplar}) => {
+        return {bill, name, amount, cost_per_exemplar};
+      });
+    
+    const postPaymentsIndexes = payments
+      .map((payment, index) => {
+        if (payment.isEditedType == 'POST') {
+          return index;
+        } else {
+          return -1;
+        }
+      })
+      .filter(index => index != -1);
+  
+
+    const putPayments = payments
+      .filter(payment => payment.isEditedType == 'PUT')
+      .map(({id, bill, name, amount, cost_per_exemplar}) => {
+        return {id, bill, name, amount, cost_per_exemplar};
+      });
+
+    const putPaymentsIndexes = payments
+      .map((payment, index) => {
+        if (payment.isEditedType == 'PUT') {
+          return index;
+        } else {
+          return -1;
+        }
+      })
+      .filter(index => index != -1);
+
+    const deletePayments = payments
+      .filter(payment => payment.isEditedType == 'DELETE')
+      .map(({id}) => {
+        return {id};
+      });
+    
+    const deletePaymentsIndexes = payments
+      .map((payment, index) => {
+        if (payment.isEditedType == 'DELETE') {
+          return index;
+        } else {
+          return -1;
+        }
+      })
+      .filter(index => index != -1);
+    
+    if (postPayments.length > 0) {
+      Service.postPayments(postPayments)
+        .then(res => {
+          this.props.postPayments({indexes:postPaymentsIndexes, ...res});
+          const error = (res.response.filter(({status}) => status == 400).length > 0);
+          if (error && !this.state.editMode) {
+            this.toggleEditMode();
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (putPayments.length > 0) {
+      Service.putPayments(putPayments)
+        .then(res => {
+          this.props.putPayments({indexes:putPaymentsIndexes, ...res});
+          const error = (res.response.filter(({status}) => status == 400).length > 0);
+          if (error && !this.state.editMode) {
+            this.toggleEditMode();
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (deletePayments.length > 0) {
+      Service.deletePayments(deletePayments)
+        .then(res => {
+          this.props.deletePayments({indexes:deletePaymentsIndexes, ...res});
+          const error = (res.response.filter(({status}) => status == 400).length > 0);
+          if (error && !this.state.editMode) {
+            this.toggleEditMode();
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
 
@@ -41,6 +133,7 @@ class Payments extends Component {
             rowIsBeeingEdited={this.state.rowIsBeeingEdited}
             toggleRowIsBeeingEdited={this.toggleRowIsBeeingEdited}/>
           <Btn
+            onSave={this.onSave}
             someBlockIsBeengEdited={this.props.someBlockIsBeengEdited}
             toggleEditMode={this.toggleEditMode} 
             editMode={this.state.editMode}
@@ -60,8 +153,10 @@ const mapStateToProps = (state) => {
   };
 };
 
+const mapDispatchToProps = {postPayments, putPayments, deletePayments};
 
-export default connect(mapStateToProps)(Payments);
+
+export default WithService()(connect(mapStateToProps, mapDispatchToProps)(Payments));
 
 
 const Header = () => {
@@ -76,18 +171,26 @@ const PaymentsBox = ({items, editMode, rowIsBeeingEdited, toggleRowIsBeeingEdite
   return (
     <div className="editBill-payments-box">
       {
-        items.map(item => <Payment 
-          key={item.id} 
-          paymentData={item} 
-          editMode={editMode}
-          rowIsBeeingEdited={rowIsBeeingEdited}
-          toggleRowIsBeeingEdited={toggleRowIsBeeingEdited}/>)
+        items.map((item, index) => {
+          if (item.isEditedType == 'DELETE') {
+            return (<></>);
+          }
+          return (
+            <Payment 
+              key={index}
+              index={index}
+              paymentData={item} 
+              editMode={editMode}
+              rowIsBeeingEdited={rowIsBeeingEdited}
+              toggleRowIsBeeingEdited={toggleRowIsBeeingEdited}/>
+          );
+        })
       }
     </div>
   );
 };
 
-const Btn = ({toggleEditMode, editMode, rowIsBeeingEdited, someBlockIsBeengEdited}) => {
+const Btn = ({onSave, toggleEditMode, editMode, rowIsBeeingEdited, someBlockIsBeengEdited}) => {
   const btnText = (editMode)? 'Save': 'Edit';
   if (rowIsBeeingEdited) {
     return (<></>);
@@ -95,9 +198,16 @@ const Btn = ({toggleEditMode, editMode, rowIsBeeingEdited, someBlockIsBeengEdite
   if (someBlockIsBeengEdited && !editMode) {
     return (<></>);
   }
+  const onClick = () => {
+    if (editMode) {
+      onSave();
+    }
+    toggleEditMode();
+  };
+
   return (
     <div className="editBill-payments-btns">
-      <button id="edit-payments-btn" onClick={toggleEditMode}>{ btnText }</button>
+      <button id="edit-payments-btn" onClick={onClick}>{ btnText }</button>
     </div>
   );
 };
