@@ -5,7 +5,7 @@ Use acc.app.bot@gmail.com and test_user as email and password to login into vfyo
 ## PLEASE DO NOT EDIT EXISTING BILLS
 Make manipulations only with bills that you've made yourself
 
-![](/readme_src/Login_page.jpg "Login page")
+![](/readme_src/Login_page.jpg "Login page")*My caption*
 
 ![](/readme_src/Account_page.jpg "Home page")
 
