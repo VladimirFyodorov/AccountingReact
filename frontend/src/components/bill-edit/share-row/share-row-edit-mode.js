@@ -14,7 +14,7 @@ const ShareRowEditMode = (props) => {
     // first shange is 0. which can't be a float and only a string =>
     // when shareStr is 0. pass this as a string
     // else pass float(shareStr)
-    const share = (shareStr == '0.')?shareStr: +shareStr || 0;
+    const share = (shareStr == '0.' || shareStr == '')? shareStr: +shareStr || 0;
 
     const data = {itemIndex: index, payer, share};
     prePutShare(data);

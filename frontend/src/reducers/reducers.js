@@ -295,7 +295,7 @@ const reducer = (state = initialState, action = {}) => {
     const itemsBefore = billData.items.slice(0, itemIndex);
     const itemsAfter = billData.items.slice(itemIndex + 1);
     const oldShare = billData.items[itemIndex].payments.find(payment => payment.name == payer).share;
-    const deltaShare = (share == '0.')? 0 - oldShare: share - oldShare;
+    const deltaShare = (share == '0.' || share == '')? 0 - oldShare: share - oldShare;
 
     const payments = billData.items[itemIndex].payments
       .map(payment => {
