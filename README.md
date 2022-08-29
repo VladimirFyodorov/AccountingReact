@@ -11,7 +11,7 @@ You can contact me via email: vfyodorov@nes.ru
 Download repository
 
 ```
-$ cd bills-react
+$ cd frontend
 
 $ npm install
 
