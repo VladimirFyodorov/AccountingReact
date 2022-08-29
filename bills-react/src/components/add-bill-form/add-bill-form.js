@@ -17,7 +17,7 @@ class AddBillForm extends Component {
     const {Service, toggleShowAddBillForm, clearAddBillFormData, postBill} = this.props;
     const {name, costType, date, payer} = this.props.addBillFormData;
     const data = {name, comment: costType, date, lender: payer};
-    const hostIsBills = (location.host=='bills');
+    const hostIsBills = (window.location.pathname.includes('bills'));
   
     Service.postBill(data)
       .then(res => {

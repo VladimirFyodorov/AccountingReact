@@ -86,12 +86,16 @@ const deletePayments = (payload) => {
   return {type: 'DELETE_PAYMENTS', payload: payload};
 };
 
-const postShare = (payload) => {
-  return {type: 'POST_SHARE', payload: payload};
+const prePutShare = (payload) => {
+  return {type: 'PRE_PUT_SHARE', payload: payload};
 };
 
-const putShare = (payload) => {
-  return {type: 'PUT_SHARE', payload: payload};
+const postShares = (payload) => {
+  return {type: 'POST_SHARES', payload: payload};
+};
+
+const putShares = (payload) => {
+  return {type: 'PUT_SHARES', payload: payload};
 };
 
 
@@ -138,8 +142,9 @@ export {
   postPayments,
   putPayments,
   deletePayments,
-  postShare,
-  putShare,
+  prePutShare,
+  postShares,
+  putShares,
   userDataLoaded,
   accountDataLoaded,
   accountStartEditBill,

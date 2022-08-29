@@ -238,14 +238,143 @@ const reducer = (state = initialState, action = {}) => {
     return {...state, billsData, billEditData};
   }
 
-  case 'POST_SHARE': {
-    console.log('Post', action.payload);
-    return state;
+  //there is no PRE_PUT_SHARE because they are created when Payment is created
+
+  case 'PRE_PUT_SHARE': {
+    // when user is trying to enter float (e.g. 0.3) 
+    // first shange is 0. which can't be a float and only a string =>
+    // when shareStr is 0. pass this as a string
+    // else pass float(shareStr)
+    const billData = state.billEditData[0];
+    const lender = billData.lender.first_name;
+
+    const {itemIndex, payer, share} = action.payload;
+    const itemsBefore = billData.items.slice(0, itemIndex);
+    const itemsAfter = billData.items.slice(itemIndex + 1);
+    const oldShare = billData.items[itemIndex].payments.find(payment => payment.name == payer).share;
+    const deltaShare = (share == '0.')? 0 - oldShare: share - oldShare;
+
+    const payments = billData.items[itemIndex].payments
+      .map(payment => {
+        if (payment.name == payer) {
+          const isEditedType = (payment.id > 0)? 'PUT': 'POST'; // if there is no Id => it's new item
+          return {...payment, share, isEdited:true, isEditedType};
+        } else if (payment.name == lender) {  // re calculate lender's share (1 - sum(shares))
+          const isEditedType = (payment.id > 0)? 'PUT': 'POST'; // if there is no Id => it's new item
+          const calcShare = payment.share - deltaShare;
+
+          return {...payment, share: calcShare, isEdited:true, isEditedType};
+        }
+        return payment;
+      });
+    const item = {...billData.items[itemIndex], payments};
+    const items = [...itemsBefore, item, ...itemsAfter];
+    const billEditData = [{...billData, items}];
+
+    return {...state, billEditData};
   }
 
-  case 'PUT_SHARE': {
-    console.log('Put', action.payload);
-    return state;
+  //there is no PRE_DELETE_SHARE because they are deleted when Payment is deleted
+  
+
+  case 'POST_SHARES': {
+    const billData = state.billEditData[0];
+    const billIndex = state.billsData.findIndex(bill => bill.id == billData.id);
+    const billsBefore = state.billsData.slice(0, billIndex);
+    const billsAfter = state.billsData.slice(billIndex + 1);
+    const lender = billData.lender.first_name;
+
+    const {indexes, response} = action.payload;
+    const items = billData.items.map((item, index) => {
+      const payments = item.payments.map(payment => {
+        const responsePayment = response.find((res, resIndex) => {
+          const name = state.usersData.find(user => user.id == res.payment.payer).first_name;
+          // same indexes => same Item (Payment)
+          // same names => same Payment (Share), because same person
+          return index == indexes[resIndex] && payment.name == name;
+        });
+        if (!responsePayment) {
+          return payment;
+        } else if (responsePayment.status == 200){
+          const {id, paying_part} = responsePayment.payment;
+          return {...payment, id, share: paying_part, isEdited:false, isEditedType: '', error: false};
+        } else {
+          return {...payment, error: true};
+        }
+      });
+      return {...item, payments};
+    });
+
+    const ItemsWithCorrectTotalShare = items.map(item => {
+      const totalShare = item.payments.reduce((sum, payment) => {
+        return sum + payment.share;
+      }, 0);
+
+      const payments = item.payments.map(payment => {
+        if (payment.name == lender) {
+          const correctShare = payment.share - (totalShare - 1);
+          return {...payment, share: correctShare};
+        } else {
+          return payment;
+        }
+      });
+      return {...item, payments};
+    });
+
+    const billEditData = [{...billData, items: ItemsWithCorrectTotalShare}];
+    const billsData = [...billsBefore, {...billData, items}, ...billsAfter];
+
+    return {...state, billsData, billEditData};
+  }
+
+  case 'PUT_SHARES': {
+    const billData = state.billEditData[0];
+    const billIndex = state.billsData.findIndex(bill => bill.id == billData.id);
+    const billsBefore = state.billsData.slice(0, billIndex);
+    const billsAfter = state.billsData.slice(billIndex + 1);
+    const lender = billData.lender.first_name;
+
+    const {indexes, response} = action.payload;
+    const items = billData.items.map((item, index) => {
+      const payments = item.payments.map(payment => {
+        const responsePayment = response.find((res, resIndex) => {
+          const name = state.usersData.find(user => user.id == res.payment.payer).first_name;
+          // same indexes => same Item (Payment)
+          // same names => same Payment (Share), because same person
+          return index == indexes[resIndex] && payment.name == name;
+        });
+        if (!responsePayment) {
+          return payment;
+        } else if (responsePayment.status == 200){
+          const {id, paying_part} = responsePayment.payment;
+          return {...payment, id, share: paying_part, isEdited:false, isEditedType: '', error: false};
+        } else {
+          return {...payment, error: true};
+        }
+      });
+      return {...item, payments};
+    });
+
+    const ItemsWithCorrectTotalShare = items.map(item => {
+      const totalShare = item.payments.reduce((sum, payment) => {
+        return sum + payment.share;
+      }, 0);
+
+      const payments = item.payments.map(payment => {
+        if (payment.name == lender) {
+          const correctShare = payment.share - (totalShare - 1);
+          return {...payment, share: correctShare};
+        } else {
+          return payment;
+        }
+      });
+      return {...item, payments};
+    });
+
+    const billEditData = [{...billData, items: ItemsWithCorrectTotalShare}];
+    const billsData = [...billsBefore, {...billData, items}, ...billsAfter];
+
+    return {...state, billsData, billEditData};
   }
 
   case 'USER_DATA_LOADED':

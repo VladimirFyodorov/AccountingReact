@@ -22,6 +22,11 @@ class BillsMenuItem extends Component {
 
   render() {
     const {name, date} = this.props.billData;
+
+    if (!date) {
+      console.log('error bill', this.props.billData);
+    }
+
     const dateWithoutYear = date.substring(5);
     const {showBillPreview, hideBillPreview, startBillEdit} = this.props;
     const [itemClass, nameClass] = this.getItemClass();

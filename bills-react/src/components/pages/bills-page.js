@@ -29,7 +29,12 @@ class BillsPage extends Component {
         this.props.billsDataLoaded(response);
         if (billIdToEdit) {
           const billData = response.find(bill => bill.id == billIdToEdit);
-          this.props.startBillEdit(billData);
+          if (billData) { //if not deleted
+            this.props.startBillEdit(billData);
+          } else { //if deleted => redirect
+            const url = `${location.protocol}//${location.host}/bills`;
+            window.location.href = url;
+          }
         }
       })
       .catch(this.props.billsDataError());

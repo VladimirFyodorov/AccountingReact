@@ -258,57 +258,73 @@ def api_payment(request):
 @api_view(['POST', 'PUT', 'DELETE'])
 def api_share(request):
 
-    def hasDubblePayments(item, payer):
+    def alreadyHasPayment(item, payer):
         payments = Item_Payment.objects.filter(item = item).filter(payer = payer).all()
         return True if payments else False
     
+
+    def hasMoreThanOnePayments(item, payer):
+        payments = Item_Payment.objects.filter(item = item).filter(payer = payer).count()
+        return True if payments > 1 else False
+
     
-    def deleteDubblePayments(item, payer):
+    def deleteAllPayments(item, payer):
         Item_Payment.objects.filter(item = item).filter(payer = payer).delete()
 
+    paymens_data = request.data
+    response = []
 
     if request.method == 'POST':
-        payment_data = request.data
-        payment_serializer = Item_PaymentSerializer(data=payment_data)
+        for payment_data in paymens_data:
+            
+            try:
+                payment_serializer = Item_PaymentSerializer(data=payment_data)
 
-        if payment_serializer.is_valid():
-            if not hasDubblePayments(payment_data["item"], payment_data["payer"]):
-                payment_serializer.save()
-                return JsonResponse(payment_serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                deleteDubblePayments(payment_data["item"], payment_data["payer"])
-                payment_serializer.save()
-                return JsonResponse(payment_serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(payment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                if payment_serializer.is_valid():
+                    if not alreadyHasPayment(payment_data["item"], payment_data["payer"]):
+                        payment_serializer.save()
+                        response.append({'payment':payment_serializer.data, 'status':200})
 
-    payment_data = request.data
-    payment_id = payment_data["id"]
+                    else:
+                        deleteAllPayments(payment_data["item"], payment_data["payer"])
+                        payment_serializer.save()
+                        response.append({'payment':payment_serializer.data, 'status':200})
+                else:
+                    response.append({'exitPoint':1, 'payment':payment_data, 'status':400})
+            except:
+                response.append({'exitPoint':2, 'payment':payment_data, 'status':400})
 
-    if payment_id != 'multiple ids':
-        try: 
-            payment = Item_Payment.objects.get(id = payment_id) 
-        except Item_Payment.DoesNotExist:
-            return JsonResponse({'message': 'The share does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+        return JsonResponse({'response': response}, status=status.HTTP_200_OK) 
 
-        if request.method == 'PUT':
-            payment_serializer = Item_PaymentSerializer(payment, data=payment_data)
-            if payment_serializer.is_valid():
-                payment_serializer.save()
-                return JsonResponse(payment_serializer.data, status=status.HTTP_200_OK) 
-            return JsonResponse(payment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    else:
-        payment_serializer = Item_PaymentSerializer(data=payment_data)
 
-        if payment_serializer.is_valid():
-            if not hasDubblePayments(payment_data["item"], payment_data["payer"]):
-                payment_serializer.save()
-                return JsonResponse(payment_serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                deleteDubblePayments(payment_data["item"], payment_data["payer"])
-                payment_serializer.save()
-                return JsonResponse(payment_serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(payment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'PUT':
+        for payment_data in paymens_data:
+            try:
+                # dealing with multiple payments per user
+                payment_serializer = Item_PaymentSerializer(data=payment_data)
+                if payment_serializer.is_valid():
+                    if not hasMoreThanOnePayments(payment_data["item"], payment_data["payer"]):
+
+                        payment_id = payment_data["id"]
+                        payment = Item_Payment.objects.get(id = payment_id)
+                        payment_serializer = Item_PaymentSerializer(payment, data=payment_data)
+
+                        if payment_serializer.is_valid():
+                            payment_serializer.save()
+                            response.append({'payment':payment_serializer.data, 'status':200})
+                        else:
+                            response.append({'payment':payment_data, 'status':400})
+
+                    else: # more than one payment per user => replace duplicates
+                        deleteAllPayments(payment_data["item"], payment_data["payer"])
+                        payment_serializer.save()
+                        response.append({'payment':payment_serializer.data, 'status':200})
+                else:
+                    response.append({'payment':payment_data, 'status':400})
+            except:
+                response.append({'payment':payment_data, 'status':400})
+        return JsonResponse({'response': response}, status=status.HTTP_200_OK) 
+
 
     # shares are deleted only by deleting Payment therefore we don't need special API for this 
     # if request.method == 'DELETE': 
