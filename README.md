@@ -5,12 +5,10 @@ Use acc.app.bot@gmail.com and test_user as email and password to login into vfyo
 
 # Preview
 
-*Login page*
+### Login page
 ![Login page](/readme_src/Login_page.jpg "Login page"){: .image-shadow}
 
----
-
-*Home page*
+### Home page
 ![Home page](/readme_src/Account_page.jpg "Home page")
 
 <hr>
