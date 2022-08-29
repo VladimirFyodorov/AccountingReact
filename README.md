@@ -5,8 +5,6 @@ Use acc.app.bot@gmail.com and test_user as email and password to login into vfyo
 ## PLEASE DO NOT EDIT EXISTING BILLS
 Make manipulations only with bills that you've made yourself
 
-### Contacts
-You can contact me via email: vfyodorov@nes.ru
 
 Download repository
 
@@ -21,3 +19,6 @@ $ pip install django djangorestframework
 
 $ python manage.py runserver
 ```
+
+### Contacts
+You can contact me via email: vfyodorov@nes.ru
