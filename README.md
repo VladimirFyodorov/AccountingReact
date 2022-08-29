@@ -11,6 +11,7 @@ Use acc.app.bot@gmail.com and test_user as email and password to login into vfyo
 
 ### Home page
 <hr>
+
 ![Home page](/readme_src/Account_page.jpg "Home page")
 
 
