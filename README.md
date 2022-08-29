@@ -6,16 +6,16 @@ Use acc.app.bot@gmail.com and test_user as email and password to login into vfyo
 # Preview
 
 *Login page*
-![](/readme_src/Login_page.jpg "Login page")
+![](/readme_src/Login_page.jpg "Login page"){: .shadow}
 
 *Home page*
-![](/readme_src/Account_page.jpg "Home page")
+![](/readme_src/Account_page.jpg "Home page"){: .shadow}
 
 *View bill*
-![](/readme_src/View_bill.jpg "View bill")
+![](/readme_src/View_bill.jpg "View bill"){: .shadow}
 
 *Edit bill*
-![](/readme_src/Edit_bill.jpg "Edit bill")
+![](/readme_src/Edit_bill.jpg "Edit bill"){: .shadow}
 
 
 # Initialize redository
