@@ -17,11 +17,13 @@ Use acc.app.bot@gmail.com and test_user as email and password to login into vfyo
 
 ### View bill
 <hr>
+
 ![View bill](/readme_src/View_bill.jpg "View bill")
 
 
 ### Edit bill
 <hr>
+
 ![Edit bill](/readme_src/Edit_bill.jpg "Edit bill")
 
 
