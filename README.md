@@ -1,8 +1,4 @@
-# Final Accounting app
-
-Backend of accounting app you can find separatelly on https://github.com/VladimirFyodorov/Accounting
-
-Frontend of accounting app you can find separatelly on https://github.com/VladimirFyodorov/AccountingOnlyReact
+# Accounting app on React-Redux. vfyodorov.ru
 
 
 Download repository
