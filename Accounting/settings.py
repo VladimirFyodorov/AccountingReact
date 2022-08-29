@@ -59,7 +59,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'bills-react/build'),
+            os.path.join(BASE_DIR, 'frontend/build'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -127,7 +127,7 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'static')
-    os.path.join(BASE_DIR, 'bills-react/build/static')
+    os.path.join(BASE_DIR, 'frontend/build/static')
 ]
 
 # Default primary key field type

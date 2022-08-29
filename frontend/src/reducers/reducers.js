@@ -3,8 +3,11 @@ const initialState = {
   error: false,
   usersData: [],
   billsData: [],
+  hasBillPreviewData: false,
   billPreviewData: [],
+  hasBillEditData: false,
   billEditData: [],
+  billInEditMode: false,
   costTypes:['Food', 'Entertainment', 'Health and Beauty', 'Other'],
   showLogoutWindow: false,
   showAddBillForm: false,
@@ -49,19 +52,59 @@ const reducer = (state = initialState, action = {}) => {
       ...state, loading: false, error: true
     };
 
-  case 'SHOW_BILL_PREVIEW':
+  case 'SHOW_BILL_PREVIEW': {
+    //if bill is currently being edited Preview mode has to be disabled
+    if (state.billInEditMode) {  
+      return state;
+    }
+    // calculate totals
+    const billData = action.payload;
+    const lender = billData.lender.first_name;
+    let totalsLayout = {};
+    for (const user of state.usersData) {
+      totalsLayout[user.first_name] = {amount: 0, is_payed: 'True'};
+    }
+
+    for (const item of billData.items) {
+      for (const payment of item.payments) {
+        totalsLayout[payment.name].amount += item.amount*item.cost_per_exemplar*payment.share;
+        if (payment.is_payed == 'False' && payment.share > 0 && payment.name != lender) {
+          totalsLayout[payment.name].is_payed = 'False';
+        }
+      }
+    }
+
+    const totals = Object.keys(totalsLayout).map(key => {
+      const {amount, is_payed} = totalsLayout[key];
+      return {name: key, amount: parseInt(amount), is_payed};
+    });
+
+    const billPreviewData = [{...billData, payments_total: totals}];
+
     return {
-      ...state, billPreviewData: [action.payload]
+      ...state, billPreviewData, hasBillPreviewData: true
     };
+  }
 
   case 'HIDE_BILL_PREVIEW':
     return {
-      ...state, billPreviewData: []
+      ...state, billPreviewData: [], hasBillPreviewData: false
     };
 
-  case 'START_BILL_EDIT':
+  case 'START_BILL_EDIT': {
+    //if bill is currently being edited User can't start edit another bill
+    if (state.billInEditMode) {  
+      return state;
+    }
     return {
-      ...state, billEditData: [action.payload]
+      ...state, billEditData: [action.payload], hasBillEditData: true,
+      billPreviewData: [], hasBillPreviewData: false
+    };
+  }
+
+  case 'TOGGLE_BILL_IN_EDIT_MODE':
+    return {
+      ...state, billInEditMode: !state.billInEditMode
     };
   
   case 'TOGGLE_LOGOUT_WINDOW':

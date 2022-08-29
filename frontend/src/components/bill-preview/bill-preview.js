@@ -13,9 +13,7 @@ class BillPreview extends Component {
   
 
   render() {
-    // disable Preview for Bill Edit development
-    // if (this.props.billPreviewData.length != 0) {
-    if (this.props.billPreviewData.length < 0) {
+    if (this.props.billPreviewData.length != 0) {
       const [billData] = this.props.billPreviewData;
       return (
         <div className="billPreview">
@@ -32,7 +30,8 @@ class BillPreview extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    billPreviewData: state.billPreviewData
+    billPreviewData: state.billPreviewData,
+    hasBillPreviewData: state.hasBillPreviewData
   };
 };
 

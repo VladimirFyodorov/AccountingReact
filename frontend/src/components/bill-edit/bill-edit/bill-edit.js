@@ -5,6 +5,7 @@ import './bill-edit.css';
 import Header from '../header';
 import Payments from '../payments';
 import Shares from '../shares';
+import {toggleBillInEditMode} from '../../../actions';
 
 
 class BillEdit extends Component {
@@ -15,6 +16,7 @@ class BillEdit extends Component {
   }
 
   toggleSomeBlockIsBeengEdited() {
+    this.props.toggleBillInEditMode();
     this.setState(({someBlockIsBeengEdited}) => {
       return {someBlockIsBeengEdited: !someBlockIsBeengEdited};
     });
@@ -23,6 +25,10 @@ class BillEdit extends Component {
   render() {
 
     if (this.props.usersData.length == 0 || this.props.billEditData.length == 0) {
+      return (<></>);
+    } 
+
+    if (this.props.hasBillPreviewData) {
       return (<></>);
     }
 
@@ -54,9 +60,11 @@ class BillEdit extends Component {
 const mapStateToProps = (state) => {
   return {
     usersData: state.usersData,
-    billEditData: state.billEditData
+    billEditData: state.billEditData,
+    hasBillPreviewData: state.hasBillPreviewData
   };
 };
 
+const mapDispatchToProps = {toggleBillInEditMode};
 
-export default connect(mapStateToProps)(BillEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(BillEdit);

@@ -34,6 +34,10 @@ const startBillEdit = (billData) => {
   return {type: 'START_BILL_EDIT', payload: billData};
 };
 
+const toggleBillInEditMode = () => {
+  return {type: 'TOGGLE_BILL_IN_EDIT_MODE'};
+};
+
 const toggleLogoutWindow = () => {
   return {type: 'TOGGLE_LOGOUT_WINDOW'};
 };
@@ -129,6 +133,7 @@ export {
   showBillPreview,
   hideBillPreview,
   startBillEdit,
+  toggleBillInEditMode,
   toggleLogoutWindow,
   toggleShowAddBillForm,
   saveAddBillFormData,

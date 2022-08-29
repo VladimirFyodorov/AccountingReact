@@ -39,7 +39,36 @@ def index(request, id = None):
 @api_view(['GET'])
 def get_bills(request):
 
+    def getLayout():
+        # making empty user dictionary
+        # {"first_name": {"id", "share", "is_payed"}}
+        layout = {}
+        for user in get_user_model().objects.all():
+            layout[user.first_name] = {"id": 0
+                                    # , "amount": 0
+                                    , "share": 0
+                                    , "is_payed": "False"}
+        return layout  
+
+
+    def transform(dic):
+        # transforming 
+        # from {"name": {"id",  "share", "is_payed"}}
+        # to [{"id", "name", "share", "is_payed"}, {}]
+        dic_T = []
+
+        for user in get_user_model().objects.all():
+            obj = {"name": user.first_name}
+            obj["id"] = dic[user.first_name]["id"]
+            obj["share"] = round(dic[user.first_name]["share"], 2)
+            obj["is_payed"] = dic[user.first_name]["is_payed"]
+            dic_T.append(obj)
+        
+        return dic_T
+
+
     not_payed_bills = []
+
     for bill in Bill.objects.order_by('-id'):
         if not bill.is_payed:
             serializedBill = BillSerializer(bill).data
@@ -50,62 +79,6 @@ def get_bills(request):
             items = Item.objects.filter(bill = bill).all()
             serializedBill["items"] = ItemSerializer(items, many = True).data
 
-            def getLayout(withID = False):
-                if withID:
-                    # making empty user dictionary
-                    # {"first_name": {"id", "amount",  "share", "is_payed"}}
-                    layout = {}
-                    for user in get_user_model().objects.all():
-                        layout[user.first_name] = {"id": 0
-                                                , "amount": 0
-                                                , "share": 0
-                                                , "is_payed": "False"}
-                    return layout  
-
-                else:
-                    # making empty user dictionary
-                    # {"first_name": {"amount",  "share", "is_payed"}}
-                    layout = {}
-                    for user in get_user_model().objects.all():
-                        layout[user.first_name] = {"amount": 0, "share": 0, "is_payed": "True"}
-                    return layout
-
-
-            def transform(dic, withID = False):
-                if withID:
-                    # transforming 
-                    # from {"name": {"id", "amount",  "share", "is_payed"}}
-                    # to [{"id", "name", "amount", "share", "is_payed"}, {}]
-                    dic_T = []
-
-                    for user in get_user_model().objects.all():
-                        obj = {"name": user.first_name}
-                        obj["id"] = dic[user.first_name]["id"]
-                        obj["amount"] = round(dic[user.first_name]["amount"])
-                        obj["share"] = round(dic[user.first_name]["share"], 2)
-                        obj["is_payed"] = dic[user.first_name]["is_payed"]
-                        dic_T.append(obj)
-                    
-                    return dic_T
-
-                else:
-                    # transforming 
-                    # from {"name": {"amount",  "share", "is_payed"}}
-                    # to [{"name", "amount", "share", "is_payed"}, {}]
-                    dic_T = []
-
-                    for user in get_user_model().objects.all():
-                        obj = {"name": user.first_name}
-                        obj["amount"] = round(dic[user.first_name]["amount"])
-                        obj["share"] = round(dic[user.first_name]["share"], 2)
-                        obj["is_payed"] = dic[user.first_name]["is_payed"]
-                        dic_T.append(obj)
-                    
-                    return dic_T
-            
-
-                        
-            payments_total = getLayout()
 
             for i in range(len(items)):
                 item = items[i]
@@ -116,16 +89,11 @@ def get_bills(request):
 
                 payments = Item_Payment.objects.filter(item_id = item.id).all()
 
-                payments_in_item = getLayout(withID = True)
+                payments_in_item = getLayout()
 
                 #calculating amounts
                 for payment in payments:
                     payerFistName = get_user_model().objects.get(id = payment.payer.id).first_name
-                    # calculation for total
-                    payments_total[payerFistName]["amount"] += payment.paying_amount
-
-                    if not payment.is_payed:
-                        payments_total[payerFistName]["is_payed"] = "False"
                     
                     if payment.is_payed:
                         payments_in_item[payerFistName]["is_payed"] = "True"
@@ -135,7 +103,6 @@ def get_bills(request):
                         payments_in_item[payerFistName]["id"] = payment.id
                     else:
                         payments_in_item[payerFistName]["id"] = 'multiple ids'
-                    payments_in_item[payerFistName]["amount"] += payment.paying_amount
                     payments_in_item[payerFistName]["share"] += payment.paying_part
 
                     # for both
@@ -144,17 +111,11 @@ def get_bills(request):
 
                 
                 #adding difference to lender
-                payments_total[lender.first_name]["amount"] += item_cost
-                payments_in_item[lender.first_name]["amount"] += item_cost
                 payments_in_item[lender.first_name]["share"] += item_share
 
                 # adding dic to item object
-                serializedBill["items"][i]["payments"] = transform(payments_in_item, withID = True)
+                serializedBill["items"][i]["payments"] = transform(payments_in_item)
 
-
-
-            #adding final dictionary to bill object
-            serializedBill["payments_total"] = transform(payments_total)
 
             # adding bill object to list of bills
             not_payed_bills.append(serializedBill)
@@ -290,9 +251,9 @@ def api_share(request):
                         payment_serializer.save()
                         response.append({'payment':payment_serializer.data, 'status':200})
                 else:
-                    response.append({'exitPoint':1, 'payment':payment_data, 'status':400})
+                    response.append({'payment':payment_data, 'status':400})
             except:
-                response.append({'exitPoint':2, 'payment':payment_data, 'status':400})
+                response.append({'payment':payment_data, 'status':400})
 
         return JsonResponse({'response': response}, status=status.HTTP_200_OK) 
 
