@@ -13,6 +13,7 @@ from django.http.response import JsonResponse
 
 ## custom libs
 import python_libs.send_email as se
+# import time
 
 # Create your views here.
 # clean terminal print("\033[H\033[J", end="")
@@ -98,6 +99,7 @@ def logout_view(request):
 @api_view(['PUT'])
 def check_email(request):
     email = request.data["email"]
+    # time.sleep(3)
 
     for user in get_user_model().objects.all():
         if user.email.lower() == email.lower():

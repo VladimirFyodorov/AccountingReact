@@ -9,7 +9,6 @@ class LoginForm extends Component {
     this.onInput = this.onInput.bind(this);
     this.checkEmail = this.checkEmail.bind(this);
     this.onSubmitEmail = this.onSubmitEmail.bind(this);
-    this.clearState = this.clearState.bind(this);
     this.onSubmitPassword = this.onSubmitPassword.bind(this);
   }
 
@@ -19,23 +18,14 @@ class LoginForm extends Component {
     });
   }
 
-  clearState(data) {
-    let emptyState = {...this.state};
-
-    for (const key of Object.keys(emptyState)) {
-      emptyState[key] = '';
-    }
-
-    this.setState({...emptyState, ...data});
-  }
 
   checkEmail(email) {
     this.props.Service.checkEmail({email})
       .then(res => {
         if (res.id > 0) {
-          this.setState({...res, email, checkMark: true});
+          this.setState({checkMark: true});
         } else {
-          this.clearState({email, errorMessage: this.state.errorMessage || ''});
+          this.setState({checkMark: false});
         }
       });
   }
@@ -48,7 +38,7 @@ class LoginForm extends Component {
         if (res.id > 0) {
           this.setState({...res, checkMark: true, userIsPreValidated: true, errorMessage: ''});
         } else {
-          this.clearState({email, errorMessage: 'Wrong email'});
+          this.setState({errorMessage: 'Wrong email'});
         }
       });
   }
