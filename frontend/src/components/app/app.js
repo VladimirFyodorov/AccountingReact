@@ -4,6 +4,7 @@ import PrivateRoutes from './private-routes';
 import HomePage from '../pages/home-page';
 import BillsPage from '../pages/bills-page';
 import LoginPage from '../pages/login-page';
+import SignupPage from '../pages/singup-page';
 import './app.css';
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
               <Route element={<BillsPage/>} path='/bills' exact/>
             </Route>
             <Route element={<LoginPage/>} path='/login'/>
+            <Route element={<SignupPage/>} path='/signup'/>
           </Routes>
         </Router>
       </>

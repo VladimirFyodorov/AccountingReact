@@ -88,7 +88,7 @@ const FormWithEmail = ({state, onInput, onSubmitEmail, checkEmail}) => {
       <h1>Sign in</h1>
       <h2>Continue with email</h2>
       <h3>New user? 
-        <a href="#" className="link">Create an account</a>
+        <a href="/signup" className="link">Create an account</a>
       </h3>
       <div className="input-box">
         <h5 className="input-hint">Email address</h5>

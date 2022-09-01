@@ -21,6 +21,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('/home', permanent=False)),
+    path('signup', TemplateView.as_view(template_name='index.html')),
     path('login', TemplateView.as_view(template_name='index.html')),
     path('home', TemplateView.as_view(template_name='index.html')),
     path('bills', TemplateView.as_view(template_name='index.html')),
