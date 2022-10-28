@@ -15,8 +15,8 @@ class AddBillForm extends Component {
 
   onSave() {
     const {Service, toggleShowAddBillForm, clearAddBillFormData, postBill} = this.props;
-    const {name, costType, date, payer} = this.props.addBillFormData;
-    const data = {name, comment: costType, date, lender: payer};
+    const {name, costType, date, payer, currency} = this.props.addBillFormData;
+    const data = {name, comment: costType, date, lender: payer, currency};
     const hostIsBills = (window.location.pathname.includes('bills'));
   
     Service.postBill(data)
@@ -54,6 +54,7 @@ class AddBillForm extends Component {
         <CostTypesInput saveAddBillFormData={saveAddBillFormData}/>
         <BillDateInput saveAddBillFormData={saveAddBillFormData}/>
         <PayerInput saveAddBillFormData={saveAddBillFormData}/>
+        <CurrencyInput saveAddBillFormData={saveAddBillFormData}/>
         <CancelBtn onCancel={this.onCancel}/>
         <CreateBillBtn onSave={this.onSave}/>
       </div>
@@ -180,6 +181,38 @@ const PayerInput = ({saveAddBillFormData}) => {
   );
 };
 
+
+const CurrencyInput = ({saveAddBillFormData}) => {
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+  const saved_value = useSelector(state => state.addBillFormData.currency);
+  const currency = saved_value || 'RUB';
+  if (!saved_value) {
+    saveAddBillFormData({currency}); // initial value
+  }
+  return (
+    <div className="add-bill-form-small-item">
+      <h5>Currency</h5>
+      <select
+        onChange={(e) => saveAddBillFormData({currency: e.target.value})}
+        className="create-bill" 
+        id="input-bill-payer" 
+        name="currency">
+        {
+          Object.entries(currency_dic).map(([key, value]) => {
+            if (key == currency) {
+              return (
+                <option selected="selected" key={key} value={key}>{value}</option>
+              );
+            }
+            return (
+              <option key={key} value={key}>{value}</option>
+            );
+          })
+        }
+      </select>
+    </div>
+  );
+};
 
 const CancelBtn = ({onCancel}) => {
   return (

@@ -24,12 +24,18 @@ div.add-bill-form-item {
 }
 
 div.add-bill-form-big-item {
-    flex-grow: 2;
+    flex-grow: 1.7;
     flex-basis: 0px;
 }
 
 div.add-bill-form-middle-item {
     flex-grow: 1.2;
+    flex-basis: 0px;
+}
+
+div.add-bill-form-small-item {
+    padding-left: 20px;
+    flex-grow: 0.4;
     flex-basis: 0px;
 }
 
