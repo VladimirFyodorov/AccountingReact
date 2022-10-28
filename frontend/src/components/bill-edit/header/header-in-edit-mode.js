@@ -24,6 +24,9 @@ const HeaderInEditMode = ({onPut, changeUnsavedData}) => {
           usersData={usersData}
           billEditData={billEditData}
           changeUnsavedData={changeUnsavedData}/>
+        <CurrencyInput
+          billEditData={billEditData}
+          changeUnsavedData={changeUnsavedData}/>
       </div>
 
       <div className="editBill-header-btns">
@@ -67,6 +70,24 @@ const PayerInput = ({usersData, billEditData, changeUnsavedData}) => {
       {
         usersData.filter(user => user.id != lender.id).map(user => {
           return (<option key={user.id} value={user.id}>{user.first_name}</option>);
+        })
+      }
+    </select>
+  );
+};
+
+const CurrencyInput = ({billEditData, changeUnsavedData}) => {
+  const [{currency}] = billEditData;
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+
+  return (
+    <select 
+      className='editBill-header-input-currency'
+      onChange={(e) => changeUnsavedData({currency: e.target.value})}>
+      <option value={currency}>{currency_dic[currency]}</option>
+      {
+        Object.entries(currency_dic).filter(([key]) => key != currency).map(([key, value]) => {
+          return (<option key={key} value={key}>{value}</option>);
         })
       }
     </select>

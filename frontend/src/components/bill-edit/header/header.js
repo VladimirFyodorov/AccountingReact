@@ -42,9 +42,9 @@ class Header extends Component {
     const { billEditData, Service, putBill} = this.props;
     const dataGlobal = billEditData[0];
     const dataLocal = this.state.unsavedData;
-    const {id, name, comment, date} = {...dataGlobal, ...dataLocal};
+    const {id, name, comment, date, currency} = {...dataGlobal, ...dataLocal};
     const lender = dataLocal.lender || dataGlobal.lender.id;
-    const data = {id, name, comment, date, lender};
+    const data = {id, name, comment, date, lender, currency};
 
     Service.putBill(data)
       .then(res => {
