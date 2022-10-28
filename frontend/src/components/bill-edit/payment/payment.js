@@ -22,8 +22,9 @@ class Payment extends Component {
   render() {
     if (!this.state.paymentEditMode) {
       return (
-        <NormalRow 
+        <NormalRow
           paymentData={this.props.paymentData}
+          currency={this.props.currency}
           toggleEditMode={this.toggleEditMode}
           editMode={this.props.editMode}
           rowIsBeeingEdited={this.props.rowIsBeeingEdited}
@@ -40,6 +41,7 @@ class Payment extends Component {
     return (
       <RowInEditMode
         data={data}
+        currency={this.props.currency}
         toggleEditMode={this.toggleEditMode}
         prePutPayment={this.props.prePutPayment}
         preDeletePayment={this.props.preDeletePayment}/>
@@ -60,9 +62,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(Payment);
 
 
 
-const NormalRow = ({paymentData, toggleEditMode, editMode, rowIsBeeingEdited}) => {
+const NormalRow = ({paymentData, toggleEditMode, currency, editMode, rowIsBeeingEdited}) => {
   const {name, cost_per_exemplar, amount, error} = paymentData;
   const rowClass = error?'editBill-payment-error':'editBill-payment';
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+  const currency_symbol = currency_dic[currency] || '?';
   return (
     <div className="editBill-payment-row">
       <div className={rowClass}>
@@ -70,7 +74,7 @@ const NormalRow = ({paymentData, toggleEditMode, editMode, rowIsBeeingEdited}) =
           <h4>{name}</h4>
         </div>
         <div className="editBill-payment-cost">
-          <h5>{cost_per_exemplar} ₽</h5>
+          <h5>{cost_per_exemplar} {currency_symbol}</h5>
         </div>
         <div className="editBill-payment-items">
           <h4>x{amount}</h4>
@@ -100,8 +104,10 @@ const EditBtn = ({editMode, toggleEditMode, rowIsBeeingEdited}) => {
 
 
 
-const RowInEditMode = ({data, prePutPayment, preDeletePayment, toggleEditMode}) => {
+const RowInEditMode = ({data, currency, prePutPayment, preDeletePayment, toggleEditMode}) => {
   const [state, setState] = useState(data);
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+  const currency_symbol = currency_dic[currency] || '?';
 
   const onSave = () => {
     const {index, id, name, cost_per_exemplar, amount, bill} = state;
@@ -138,7 +144,7 @@ const RowInEditMode = ({data, prePutPayment, preDeletePayment, toggleEditMode}) 
             className="editBill-payment-cost-input" 
             value={cost_per_exemplar}
             onChange={e => setState({...state, cost_per_exemplar: +e.target.value || ''})}/>
-          <h5> ₽</h5>
+          <h5> {currency_symbol}</h5>
         </div>
         <div className="editBill-payment-items">
           <input 

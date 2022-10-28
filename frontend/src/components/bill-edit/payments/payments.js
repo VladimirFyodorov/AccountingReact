@@ -120,7 +120,7 @@ class Payments extends Component {
 
   render () {
     if (this.props.billEditData.length != 0) {
-      const [{items}] = this.props.billEditData;
+      const [{items, currency}] = this.props.billEditData;
       return (
         <div className="editBill-payments">
           <Header/>
@@ -128,7 +128,8 @@ class Payments extends Component {
             editMode={this.state.editMode}
             rowIsBeeingEdited={this.state.rowIsBeeingEdited}/>
           <PaymentsBox 
-            items={items} 
+            items={items}
+            currency={currency}
             editMode={this.state.editMode}
             rowIsBeeingEdited={this.state.rowIsBeeingEdited}
             toggleRowIsBeeingEdited={this.toggleRowIsBeeingEdited}/>
@@ -167,7 +168,7 @@ const Header = () => {
   );
 };
 
-const PaymentsBox = ({items, editMode, rowIsBeeingEdited, toggleRowIsBeeingEdited}) => {
+const PaymentsBox = ({items, currency, editMode, rowIsBeeingEdited, toggleRowIsBeeingEdited}) => {
   return (
     <div className="editBill-payments-box">
       {
@@ -179,7 +180,8 @@ const PaymentsBox = ({items, editMode, rowIsBeeingEdited, toggleRowIsBeeingEdite
             <Payment 
               key={index}
               index={index}
-              paymentData={item} 
+              paymentData={item}
+              currency={currency}
               editMode={editMode}
               rowIsBeeingEdited={rowIsBeeingEdited}
               toggleRowIsBeeingEdited={toggleRowIsBeeingEdited}/>

@@ -42,6 +42,9 @@ class AddBillForm extends Component {
     }
     const {name, cost, items} = this.state;
     const onChange = this.onChange;
+    const [{currency}] = this.props.billEditData;
+    const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+    const currency_symbol = currency_dic[currency] || '?';
     return (
       <div className="editBill-payments-add">
         <div className="editBill-payments-add-input">
@@ -58,7 +61,7 @@ class AddBillForm extends Component {
               value={cost}
               onChange={(e) => onChange({cost: +e.target.value || ''})}
               className="editBill-payments-add-input-cost"/>
-            <h5> ₽</h5>
+            <h5> {currency_symbol}</h5>
           </div>
           <div className="editBill-payments-add-input-items">
             <input 
