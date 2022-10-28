@@ -5,10 +5,17 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Bill(models.Model):
+    CURRENCIES = [
+        ('RUB', 'Russian rubble'),
+        ('USD', 'US dollar'),
+        ('EUR', 'Euro'),
+        ('KZT', 'Kazakhstani tenge'),
+    ]
     name = models.CharField(max_length=50)
     date = models.DateField()
     comment = models.CharField(max_length=500, blank=True)
     lender = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='lender', editable = True, blank=True)
+    currency = models.CharField(max_length=3, choices=CURRENCIES, default='RUB')
     
     def _is_payed(self):
         "Returns true if it has payments and all payments are payed"
