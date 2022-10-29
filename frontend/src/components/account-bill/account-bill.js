@@ -15,7 +15,7 @@ class AccountBill extends Component {
     }
 
     const {accountBillEditData, accountEndEditBill} = this.props;
-    const {id, name, date, lender, items} = accountBillEditData;
+    const {id, name, date, lender, items, currency} = accountBillEditData;
     const formatedDate = date.slice(5); //without year
     const billName = `${name} ${formatedDate} ${lender.first_name}`;
 
@@ -35,7 +35,7 @@ class AccountBill extends Component {
         </div>
         <div className="billBox-paymentsBox">
           {items && 
-            items.map((item, index) => <ItemRow key={index} item={item}/>)
+            items.map((item, index) => <ItemRow key={index} item={item} currency={currency}/>)
           }
         </div>
         <div className="billBox-btnBox">
@@ -62,14 +62,15 @@ const mapDispatchToProps = {accountEndEditBill};
 export default connect(mapStateToProps, mapDispatchToProps)(AccountBill);
 
 
-const ItemRow = ({item}) => {
+const ItemRow = ({item, currency}) => {
   const preatyfyNum = (num) => {
     return parseInt(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   };
-
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+  const currency_symbol = currency_dic[currency] || '?';
   const {name, cost_per_item, items, paying_amount, share} = item;
-  const payingAmountTxt = preatyfyNum(paying_amount) + ' ₽';
-  const costPerItemTxt = preatyfyNum(cost_per_item) + '₽ x' + items;
+  const payingAmountTxt = preatyfyNum(paying_amount) + ' ' + currency_symbol;
+  const costPerItemTxt = preatyfyNum(cost_per_item) + currency_symbol + ' x' + items;
   const shareTxt = parseInt(share*100) + '%';
   return (
     <div className="billBox-paymentsBox-row">
