@@ -150,7 +150,9 @@ const AccountRow = (props) => {
 const BillPreviewRow = ({bill, isCurrent, onClick}) => {
   const formatedDate = bill.date.slice(5); //without year
   const billName = `${bill.name} ${formatedDate}`;
-  const billCost = bill.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+  const currency_symbol = currency_dic[bill.currency] || '?';
+  const billCost = bill.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ' + currency_symbol;
   const rowClass = isCurrent?'totalBox-billPreviewRow-current':'totalBox-billPreviewRow';
   return (
     <div className={rowClass} onClick={onClick}>
@@ -201,7 +203,6 @@ const AccountTotalRow = ({accountData}) => {
           <h4 className="bold">Total</h4>
         </div>
         <div className="totalBox-row-NameAndAmount-amount">
-          {/* <h4 className='bold'>{totalText}</h4> */}
           {
             textArr.map(text => {
               return (
