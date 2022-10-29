@@ -11,6 +11,7 @@ div.totalBox-row {
     justify-content: space-between;
 
     height: 35px;
+    margin-top: 5px;
 }
 
 
@@ -20,7 +21,7 @@ div.totalBox-totalRow {
 
     height: 35px;
 
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 div.totalBox-row-nameAndAmount {
@@ -35,10 +36,13 @@ div.totalBox-row-nameAndAmount-name {
     align-items: center;
 }
 
-div.totalBox-row-NameAndAmount-amount {
+/* div.totalBox-row-NameAndAmount-amount {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+} */
+h4.totalBox-row-NameAndAmount-amount {
+    text-align: right;
 }
 
 div.totalBox-row-btns {

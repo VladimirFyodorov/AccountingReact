@@ -83,7 +83,23 @@ const AccountRow = (props) => {
   const {id, name, total, bills} = data;
   const btnText = (total<0)?'Pay':'Receive';
   const showBillsText = (rowWithShowBills==index)?'Hide bills':'Show bills';
-  const totalText = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+
+  // calc totals grouped by currency
+  const totalGroupedByCurency = bills.reduce((res, {currency, total}) => {
+    res[currency] = (res[currency] || 0) + total;
+    return res;
+  }, {});
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+
+  const textArr = Object.entries(totalGroupedByCurency).map(([currency, total]) => {
+    const strTotal = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    const currency_symbol = currency_dic[currency] || '?';
+    return strTotal + ' ' + currency_symbol;
+  });
+
+  if (textArr.length == 0) {
+    textArr.push('0 ₽');
+  }
 
 
   return (
@@ -94,7 +110,13 @@ const AccountRow = (props) => {
             <h4>{name}</h4>
           </div>
           <div className="totalBox-row-NameAndAmount-amount">
-            <h4>{totalText}</h4>
+            {
+              textArr.map(text => {
+                return (
+                  <h4 className='totalBox-row-NameAndAmount-amount' key={text}>{text}</h4>
+                );
+              })
+            }
           </div>
         </div>
         <div className="totalBox-row-btns">
@@ -151,8 +173,26 @@ const BillPreviewRow = ({bill, isCurrent, onClick}) => {
 
 
 const AccountTotalRow = ({accountData}) => {
-  const total = accountData.reduce((acc, elem) => acc + elem.total, 0);
-  const totalText = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
+  const totalTotalGroupedByCurency = accountData.reduce((acc, {bills})=> {
+    const totalGroupedByCurency = bills.reduce((res, {currency, total}) => {
+      res[currency] = (res[currency] || 0) + total;
+      return res;
+    }, acc);
+    return totalGroupedByCurency;
+  }, {});
+
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+
+  const textArr = Object.entries(totalTotalGroupedByCurency).map(([currency, total]) => {
+    const strTotal = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    const currency_symbol = currency_dic[currency] || '?';
+    return strTotal + ' ' + currency_symbol;
+  });
+
+  if (textArr.length == 0) {
+    textArr.push('0 ₽');
+  }
+
 
   return (
     <div className="totalBox-totalRow">
@@ -161,7 +201,14 @@ const AccountTotalRow = ({accountData}) => {
           <h4 className="bold">Total</h4>
         </div>
         <div className="totalBox-row-NameAndAmount-amount">
-          <h4 className='bold'>{totalText}</h4>
+          {/* <h4 className='bold'>{totalText}</h4> */}
+          {
+            textArr.map(text => {
+              return (
+                <h4 className='totalBox-row-NameAndAmount-amount bold' key={text}>{text}</h4>
+              );
+            })
+          }
         </div>
       </div>
     </div>
