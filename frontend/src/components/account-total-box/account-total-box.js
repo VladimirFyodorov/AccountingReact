@@ -12,6 +12,7 @@ class AccountTotalBox extends Component {
       rowWithShowBills: -1, //index of extended row
       currencyConvertationTypes: ['not', 'RUB', 'USD', 'EUR', 'KZT'],
       indexOfCurrentConvType: 0,
+      exchangeRates: {'RUB': 1, 'USD': 1, 'EUR': 1, 'KZT': 1},
     };
     this.changeRowWithShowBills = this.changeRowWithShowBills.bind(this);
     this.closeSettlements = this.closeSettlements.bind(this);
@@ -34,10 +35,10 @@ class AccountTotalBox extends Component {
   toggleConv() {
     this.setState(({indexOfCurrentConvType, currencyConvertationTypes}) => {
       const newIndex = (indexOfCurrentConvType + 1 < currencyConvertationTypes.length)?indexOfCurrentConvType + 1: 0;
-      console.log(newIndex);
       return {indexOfCurrentConvType: newIndex};
     });
   }
+
 
   render() {
     if (!this.props.accountData) {
@@ -50,16 +51,16 @@ class AccountTotalBox extends Component {
 
     const {accountData, accountBillEditData, accountStartEditBill} = this.props;
     const {indexOfCurrentConvType, currencyConvertationTypes} = this.state;
-    const currency = currencyConvertationTypes[indexOfCurrentConvType];
+    const convCurrency = currencyConvertationTypes[indexOfCurrentConvType];
     const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
-    const currency_symbol = currency_dic[currency] || '?';
+    const currencySymbol = currency_dic[convCurrency] || '?';
 
     return (
       <div className="totalBox">
         <h2 onClick={this.toggleConv} style={{cursor: 'pointer'}}>
           Account net 
           { indexOfCurrentConvType != 0 && 
-            ` ${currency_symbol}`
+            ` ${currencySymbol}`
           }
           { indexOfCurrentConvType == 0 &&
             <img src={convertIcon} onClick={this.toggleConv} className="convert-currencies" alt="convert currencies icon"/>
@@ -72,6 +73,8 @@ class AccountTotalBox extends Component {
                 key={data.id}
                 index={index}
                 data={data}
+                convCurrency={convCurrency}
+                exchangeRates={this.state.exchangeRates}
                 closeSettlements={this.closeSettlements}
                 accountBillEditData={accountBillEditData}
                 accountStartEditBill={accountStartEditBill}
@@ -80,7 +83,10 @@ class AccountTotalBox extends Component {
             );
           })
         }
-        <AccountTotalRow accountData={accountData}/>
+        <AccountTotalRow
+          accountData={accountData}
+          convCurrency={convCurrency}
+          exchangeRates={this.state.exchangeRates}/>
       </div>
     );
   }   
@@ -104,27 +110,39 @@ export default WithService()(connect(mapStateToProps, mapDispatchToProps)(Accoun
 
 
 const AccountRow = (props) => {
-  const {data, index, rowWithShowBills, changeRowWithShowBills } = props;
+  const { data, index, rowWithShowBills, changeRowWithShowBills } = props;
   const { accountStartEditBill, accountBillEditData, closeSettlements } = props;
-  const {id, name, total, bills} = data;
+  const { convCurrency, exchangeRates } = props;
+  const { id, name, total, bills } = data;
   const btnText = (total<0)?'Pay':'Receive';
   const showBillsText = (rowWithShowBills==index)?'Hide bills':'Show bills';
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
 
   // calc totals grouped by currency
   const totalGroupedByCurency = bills.reduce((res, {currency, total}) => {
     res[currency] = (res[currency] || 0) + total;
     return res;
   }, {});
-  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
 
-  const textArr = Object.entries(totalGroupedByCurency).map(([currency, total]) => {
+
+  const textArrByCurrencies = Object.entries(totalGroupedByCurency).map(([currency, total]) => {
     const strTotal = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     const currency_symbol = currency_dic[currency] || '?';
     return strTotal + ' ' + currency_symbol;
   });
 
-  if (textArr.length == 0) {
-    textArr.push('0 ₽');
+  const convCurrenciesSum = Object.entries(totalGroupedByCurency).reduce((acc, [currency, total]) => {
+    return acc + total*exchangeRates[currency] || 0;
+  }, 0);
+
+  const textWithConvCurrencies = `${convCurrenciesSum} ${currency_dic[convCurrency] || '?'}`;
+
+  if (textArrByCurrencies.length == 0) {
+    if (convCurrency != 'not') {
+      textArrByCurrencies.push(`0 ${currency_dic[convCurrency] || '?'}`);
+    } else {
+      textArrByCurrencies.push('0 ₽');
+    }
   }
 
 
@@ -136,12 +154,15 @@ const AccountRow = (props) => {
             <h4>{name}</h4>
           </div>
           <div className="totalBox-row-NameAndAmount-amount">
-            {
-              textArr.map(text => {
+            { convCurrency == 'not' &&
+              textArrByCurrencies.map(text => {
                 return (
                   <h4 className='totalBox-row-NameAndAmount-amount' key={text}>{text}</h4>
                 );
               })
+            }
+            { convCurrency != 'not' &&
+              <h4 className='totalBox-row-NameAndAmount-amount'>{textWithConvCurrencies}</h4>
             }
           </div>
         </div>
@@ -200,7 +221,9 @@ const BillPreviewRow = ({bill, isCurrent, onClick}) => {
 
 
 
-const AccountTotalRow = ({accountData}) => {
+const AccountTotalRow = ({accountData, convCurrency, exchangeRates}) => {
+  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+
   const totalTotalGroupedByCurency = accountData.reduce((acc, {bills})=> {
     const totalGroupedByCurency = bills.reduce((res, {currency, total}) => {
       res[currency] = (res[currency] || 0) + total;
@@ -209,16 +232,24 @@ const AccountTotalRow = ({accountData}) => {
     return totalGroupedByCurency;
   }, {});
 
-  const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
-
-  const textArr = Object.entries(totalTotalGroupedByCurency).map(([currency, total]) => {
+  const textArrByCurrencies = Object.entries(totalTotalGroupedByCurency).map(([currency, total]) => {
     const strTotal = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     const currency_symbol = currency_dic[currency] || '?';
     return strTotal + ' ' + currency_symbol;
   });
 
-  if (textArr.length == 0) {
-    textArr.push('0 ₽');
+  const convCurrenciesSum = Object.entries(totalTotalGroupedByCurency).reduce((acc, [currency, total]) => {
+    return acc + total*exchangeRates[currency] || 0;
+  }, 0);
+
+  const textWithConvCurrencies = `${convCurrenciesSum} ${currency_dic[convCurrency] || '?'}`;
+
+  if (textArrByCurrencies.length == 0) {
+    if (convCurrency != 'not') {
+      textArrByCurrencies.push(`0 ${currency_dic[convCurrency] || '?'}`);
+    } else {
+      textArrByCurrencies.push('0 ₽');
+    }
   }
 
 
@@ -229,12 +260,15 @@ const AccountTotalRow = ({accountData}) => {
           <h4 className="bold">Total</h4>
         </div>
         <div className="totalBox-row-NameAndAmount-amount">
-          {
-            textArr.map(text => {
+          { convCurrency == 'not' &&
+            textArrByCurrencies.map(text => {
               return (
                 <h4 className='totalBox-row-NameAndAmount-amount bold' key={text}>{text}</h4>
               );
             })
+          }
+          { convCurrency != 'not' &&
+            <h4 className='totalBox-row-NameAndAmount-amount bold'>{textWithConvCurrencies}</h4>
           }
         </div>
       </div>
