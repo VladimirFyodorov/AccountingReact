@@ -132,3 +132,9 @@ div.totalBox-billPreviewRow-items {
 
     width: 16vw;
 }
+
+img.convert-currencies {
+    width: 20px;
+    height: 20px;
+    padding-left: 10px;
+}

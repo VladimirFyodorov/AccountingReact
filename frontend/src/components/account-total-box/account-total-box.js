@@ -3,13 +3,19 @@ import {connect} from 'react-redux';
 import './account-total-box.css';
 import { accountStartEditBill, closeSettlements } from '../../actions';
 import WithService from '../hoc';
+import convertIcon from'./convert_currencies_icon.png';
 
 class AccountTotalBox extends Component {
   constructor(props) {
     super(props);
-    this.state = {rowWithShowBills: -1}; //index of extended row
+    this.state = {
+      rowWithShowBills: -1, //index of extended row
+      currencyConvertationTypes: ['not', 'RUB', 'USD', 'EUR', 'KZT'],
+      indexOfCurrentConvType: 0,
+    };
     this.changeRowWithShowBills = this.changeRowWithShowBills.bind(this);
     this.closeSettlements = this.closeSettlements.bind(this);
+    this.toggleConv = this.toggleConv.bind(this);
   }
 
   changeRowWithShowBills(index) {
@@ -25,6 +31,14 @@ class AccountTotalBox extends Component {
       .catch(err => console.log(err));
   }
 
+  toggleConv() {
+    this.setState(({indexOfCurrentConvType, currencyConvertationTypes}) => {
+      const newIndex = (indexOfCurrentConvType + 1 < currencyConvertationTypes.length)?indexOfCurrentConvType + 1: 0;
+      console.log(newIndex);
+      return {indexOfCurrentConvType: newIndex};
+    });
+  }
+
   render() {
     if (!this.props.accountData) {
       return (
@@ -35,10 +49,22 @@ class AccountTotalBox extends Component {
     }
 
     const {accountData, accountBillEditData, accountStartEditBill} = this.props;
+    const {indexOfCurrentConvType, currencyConvertationTypes} = this.state;
+    const currency = currencyConvertationTypes[indexOfCurrentConvType];
+    const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
+    const currency_symbol = currency_dic[currency] || '?';
 
     return (
       <div className="totalBox">
-        <h2>Account net</h2>
+        <h2 onClick={this.toggleConv} style={{cursor: 'pointer'}}>
+          Account net 
+          { indexOfCurrentConvType != 0 && 
+            ` ${currency_symbol}`
+          }
+          { indexOfCurrentConvType == 0 &&
+            <img src={convertIcon} onClick={this.toggleConv} className="convert-currencies" alt="convert currencies icon"/>
+          }
+        </h2>
         {
           accountData.map((data, index) => {
             return (
