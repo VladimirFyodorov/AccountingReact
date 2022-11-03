@@ -49,7 +49,7 @@ class AccountTotalBox extends Component {
       );
     }
 
-    const {accountData, accountBillEditData, accountStartEditBill} = this.props;
+    const {accountData, accountBillEditData, accountStartEditBill, exchangeRates} = this.props;
     const {indexOfCurrentConvType, currencyConvertationTypes} = this.state;
     const convCurrency = currencyConvertationTypes[indexOfCurrentConvType];
     const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
@@ -74,7 +74,7 @@ class AccountTotalBox extends Component {
                 index={index}
                 data={data}
                 convCurrency={convCurrency}
-                exchangeRates={this.state.exchangeRates}
+                exchangeRates={exchangeRates}
                 closeSettlements={this.closeSettlements}
                 accountBillEditData={accountBillEditData}
                 accountStartEditBill={accountStartEditBill}
@@ -86,7 +86,7 @@ class AccountTotalBox extends Component {
         <AccountTotalRow
           accountData={accountData}
           convCurrency={convCurrency}
-          exchangeRates={this.state.exchangeRates}/>
+          exchangeRates={exchangeRates}/>
       </div>
     );
   }   
@@ -96,7 +96,8 @@ class AccountTotalBox extends Component {
 const mapStateToProps = (state) => {
   return {
     accountData: state.accountData,
-    accountBillEditData: state.accountBillEditData
+    accountBillEditData: state.accountBillEditData,
+    exchangeRates: state.exchangeRates
   };
 };
 
@@ -132,10 +133,11 @@ const AccountRow = (props) => {
   });
 
   const convCurrenciesSum = Object.entries(totalGroupedByCurency).reduce((acc, [currency, total]) => {
-    return acc + total*exchangeRates[currency] || 0;
+
+    return acc + total*exchangeRates[`${currency}/RUB`]/exchangeRates[`${convCurrency}/RUB`] || 0;
   }, 0);
 
-  const textWithConvCurrencies = `${convCurrenciesSum} ${currency_dic[convCurrency] || '?'}`;
+  const textWithConvCurrencies = `${convCurrenciesSum.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ${currency_dic[convCurrency] || '?'}`;
 
   if (textArrByCurrencies.length == 0) {
     if (convCurrency != 'not') {
@@ -183,6 +185,8 @@ const AccountRow = (props) => {
             <BillPreviewRow 
               key={bill.id}
               bill={bill}
+              convCurrency={convCurrency}
+              exchangeRates={exchangeRates}
               isCurrent={accountBillEditData.id==bill.id}
               onClick={() => accountStartEditBill(bill)}/>
           );
@@ -194,12 +198,17 @@ const AccountRow = (props) => {
 
 
 
-const BillPreviewRow = ({bill, isCurrent, onClick}) => {
+const BillPreviewRow = ({bill, convCurrency, exchangeRates, isCurrent, onClick}) => {
   const formatedDate = bill.date.slice(5); //without year
   const billName = `${bill.name} ${formatedDate}`;
   const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
-  const currency_symbol = currency_dic[bill.currency] || '?';
-  const billCost = bill.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ' + currency_symbol;
+  const currency_symbol = (convCurrency == 'not')
+    ? currency_dic[bill.currency] || '?'
+    : currency_dic[convCurrency] || '?';
+  const billCost = (convCurrency == 'not')
+    ? bill.total
+    : bill.total*exchangeRates[`${bill.currency}/RUB`]/exchangeRates[`${convCurrency}/RUB`];
+  const billCostTxt = billCost.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ' + currency_symbol;
   const rowClass = isCurrent?'totalBox-billPreviewRow-current':'totalBox-billPreviewRow';
   return (
     <div className={rowClass} onClick={onClick}>
@@ -208,7 +217,7 @@ const BillPreviewRow = ({bill, isCurrent, onClick}) => {
           <h5>{billName}</h5>
         </div>
         <div className="totalBox-billPreviewRow-NameAndAmount-amount">
-          <h5>{billCost}</h5>
+          <h5>{billCostTxt}</h5>
         </div>
       </div>
       <div className="totalBox-billPreviewRow-items">
@@ -239,10 +248,10 @@ const AccountTotalRow = ({accountData, convCurrency, exchangeRates}) => {
   });
 
   const convCurrenciesSum = Object.entries(totalTotalGroupedByCurency).reduce((acc, [currency, total]) => {
-    return acc + total*exchangeRates[currency] || 0;
+    return acc + total*exchangeRates[`${currency}/RUB`]/exchangeRates[`${convCurrency}/RUB`] || 0;
   }, 0);
 
-  const textWithConvCurrencies = `${convCurrenciesSum} ${currency_dic[convCurrency] || '?'}`;
+  const textWithConvCurrencies = `${convCurrenciesSum.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ${currency_dic[convCurrency] || '?'}`;
 
   if (textArrByCurrencies.length == 0) {
     if (convCurrency != 'not') {

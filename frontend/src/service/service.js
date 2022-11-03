@@ -85,6 +85,7 @@ export default class Service {
     });
   }
 
+
   async makePostPutDeleteRequest(method, apiPath, data) {
     const url = `${this._apiBase}${apiPath}`,
       csrftoken = getCookie('csrftoken');
@@ -179,6 +180,10 @@ export default class Service {
 
   async closeSettlements(data) {
     return await this.makePostPutDeleteRequest('PUT', '/users_api/close_settlements', data);
+  }
+
+  async getExchangeRates() {
+    return await this.makeGetRequest('/users_api/get_exchange_rates');
   }
 }
 

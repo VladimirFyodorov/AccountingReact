@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import WithService from '../hoc';
 import { usersDataRequested, usersDataLoaded, usersDataError } from '../../actions';
-import { userDataLoaded, accountDataLoaded } from '../../actions';
+import { userDataLoaded, accountDataLoaded, exchangeRatesLoaded } from '../../actions';
 import Spinner from '../spinner';
 import Error from '../error';
 
@@ -26,6 +26,10 @@ class HomePage extends Component {
 
     Service.getAccountData()
       .then(response => this.props.accountDataLoaded(response))
+      .catch(err => console.log(err));
+    
+    Service.getExchangeRates()
+      .then(response => this.props.exchangeRatesLoaded(response))
       .catch(err => console.log(err));
   }
 
@@ -83,6 +87,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   usersDataRequested, usersDataLoaded, usersDataError,
-  userDataLoaded, accountDataLoaded};
+  userDataLoaded, accountDataLoaded, exchangeRatesLoaded};
 
 export default WithService()(connect(mapStateToProps, mapDispatchToProps)(HomePage));

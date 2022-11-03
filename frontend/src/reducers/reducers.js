@@ -15,7 +15,9 @@ const initialState = {
   userData:{first_name: '', last_name: '', email:''},
   accountData:[],
   accountHasBillEditData: false,
-  accountBillEditData: {}
+  accountBillEditData: {},
+  hasExchangeRates: false,
+  exchangeRates: {},
 };
 
 
@@ -451,6 +453,11 @@ const reducer = (state = initialState, action = {}) => {
       ...state, accountData:[...beforeData, data, ...afterData]
     };
   }
+
+  case 'EXCHANGE_RATES_LOADED':
+    return {
+      ...state, exchangeRates: action.payload, hasExchangeRates: true
+    };
 
   default:
     return state;

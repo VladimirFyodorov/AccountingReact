@@ -123,6 +123,10 @@ const closeSettlements = (payload) => {
   return {type: 'CLOSE_SETTLEMENTS', payload};
 };
 
+const exchangeRatesLoaded = (payload) => {
+  return {type: 'EXCHANGE_RATES_LOADED', payload};
+};
+
 export {
   billsDataRequested,
   billsDataLoaded,
@@ -154,5 +158,6 @@ export {
   accountDataLoaded,
   accountStartEditBill,
   accountEndEditBill,
-  closeSettlements
+  closeSettlements,
+  exchangeRatesLoaded
 };

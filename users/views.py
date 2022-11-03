@@ -13,7 +13,10 @@ from django.http.response import JsonResponse
 
 ## custom libs
 import python_libs.send_email as se
-# import time
+
+## libs for fetching exchange rates
+import requests
+import xml.etree.ElementTree as ET
 
 # Create your views here.
 # clean terminal print("\033[H\033[J", end="")
@@ -136,6 +139,27 @@ def get_user(request):
         return Response(UserSerializer(request.user).data, status=status.HTTP_200_OK)
     return Response({'message': 'No user'}, status=status.HTTP_404_NOT_FOUND)
 
+
+@api_view(['GET'])
+def get_exchange_rates(request):
+    URL = 'https://www.cbr.ru/scripts/XML_daily.asp'
+    r = requests.get(url = URL)
+    responseXml = ET.fromstring(r.content.decode("windows-1251"))
+
+    USD_nominal_rate = responseXml.find("*[@ID='R01235']").find("Value").text
+    USD_nominal = responseXml.find("*[@ID='R01235']").find("Nominal").text
+    USD_rate = float(USD_nominal_rate.replace(',', '.'))/float(USD_nominal.replace(',', '.'))
+
+    EUR_nominal_rate = responseXml.find("*[@ID='R01239']").find("Value").text
+    EUR_nominal = responseXml.find("*[@ID='R01239']").find("Nominal").text
+    EUR_rate = float(EUR_nominal_rate.replace(',', '.'))/float(EUR_nominal.replace(',', '.'))
+
+    KZT_nominal_rate = responseXml.find("*[@ID='R01335']").find("Value").text
+    KZT_nominal = responseXml.find("*[@ID='R01335']").find("Nominal").text
+    KZT_rate = float(KZT_nominal_rate.replace(',', '.'))/float(KZT_nominal.replace(',', '.'))
+
+    data = {"RUB/RUB": 1, "USD/RUB": USD_rate, "EUR/RUB": EUR_rate, "KZT/RUB": KZT_rate}
+    return Response(data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
