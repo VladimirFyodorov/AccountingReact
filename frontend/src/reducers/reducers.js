@@ -13,7 +13,8 @@ const initialState = {
   showAddBillForm: false,
   addBillFormData: {},
   userData:{first_name: '', last_name: '', email:''},
-  accountData:[],
+  hasAccountData: false,
+  accountData: [],
   accountHasBillEditData: false,
   accountBillEditData: {},
   hasExchangeRates: false,
@@ -427,10 +428,27 @@ const reducer = (state = initialState, action = {}) => {
       ...state, userData: action.payload, loading: false, error: false
     };
   
-  case 'ACCOUNT_DATA_LOADED':
+  case 'ACCOUNT_DATA_LOADED': {
+    // order bills if exchange rates are loaded, else save unordered
+    const accountData = action.payload;
+
+    if (state.hasExchangeRates) {
+      const exchangeRates = state.exchangeRates;
+
+      for (const billsOfUser of accountData) {
+        billsOfUser.bills.sort((bill_1, bill_2) => {
+          const cost1 = Math.abs(bill_1.total*exchangeRates[`${bill_1.currency}/RUB`]);
+          const cost2 = Math.abs(bill_2.total*exchangeRates[`${bill_2.currency}/RUB`]);
+          return cost2 - cost1;
+        });
+      }
+    }
+
     return {
-      ...state, accountData: action.payload, loading: false, error: false
+      ...state, accountData, hasAccountData: true, loading: false, error: false
     };
+
+  }
   
   case 'ACCOUNT_START_EDIT_BILL': {
     const lender = state.usersData.find(user => user.id == action.payload.lender);
@@ -454,10 +472,25 @@ const reducer = (state = initialState, action = {}) => {
     };
   }
 
-  case 'EXCHANGE_RATES_LOADED':
+  case 'EXCHANGE_RATES_LOADED': {
+    // order bills if account data is loaded, else save unordered
+    const exchangeRates = action.payload;
+    const accountData = state.accountData;
+
+    if (state.hasAccountData) {
+      for (const billsOfUser of accountData) {
+        billsOfUser.bills.sort((bill_1, bill_2) => {
+          const cost1 = Math.abs(bill_1.total*exchangeRates[`${bill_1.currency}/RUB`]);
+          const cost2 = Math.abs(bill_2.total*exchangeRates[`${bill_2.currency}/RUB`]);
+          return cost2 - cost1;
+        });
+      }
+    }
+
     return {
-      ...state, exchangeRates: action.payload, hasExchangeRates: true
+      ...state, accountData, exchangeRates, hasExchangeRates: true
     };
+  }
 
   default:
     return state;
