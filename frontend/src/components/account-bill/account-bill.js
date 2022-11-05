@@ -14,7 +14,7 @@ class AccountBill extends Component {
       return (<></>);
     }
 
-    const {accountBillEditData, accountEndEditBill} = this.props;
+    const {accountBillEditData, accountEndEditBill, exchangeRates, convCurrency} = this.props;
     const {id, name, date, lender, items, currency} = accountBillEditData;
     const formatedDate = date.slice(5); //without year
     const billName = `${name} ${formatedDate} ${lender.first_name}`;
@@ -35,7 +35,16 @@ class AccountBill extends Component {
         </div>
         <div className="billBox-paymentsBox">
           {items && 
-            items.map((item, index) => <ItemRow key={index} item={item} currency={currency}/>)
+            items.map((item, index) => {
+              return (
+                <ItemRow 
+                  key={index}
+                  item={item} 
+                  currency={currency}
+                  convCurrency={convCurrency}
+                  exchangeRates={exchangeRates}/>
+              );
+            })
           }
         </div>
         <div className="billBox-btnBox">
@@ -53,7 +62,8 @@ class AccountBill extends Component {
 const mapStateToProps = (state) => {
   return {
     accountBillEditData: state.accountBillEditData,
-    accountHasBillEditData: state.accountHasBillEditData
+    accountHasBillEditData: state.accountHasBillEditData,
+    exchangeRates: state.exchangeRates
   };
 };
 
@@ -62,15 +72,24 @@ const mapDispatchToProps = {accountEndEditBill};
 export default connect(mapStateToProps, mapDispatchToProps)(AccountBill);
 
 
-const ItemRow = ({item, currency}) => {
-  const preatyfyNum = (num) => {
-    return parseInt(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const ItemRow = ({item, currency, convCurrency, exchangeRates}) => {
+  const convertAndPreatyfy = (num, currency, convCurrency, exchangeRates) => {
+    if (currency == convCurrency || !convCurrency) {
+      return parseInt(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+    const numConv = num*exchangeRates[`${currency}/RUB`]/exchangeRates[`${convCurrency}/RUB`] || 0;
+    return numConv.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   };
+
   const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
-  const currency_symbol = currency_dic[currency] || '?';
+  const currency_symbol = (!convCurrency)
+    ? currency_dic[currency] || '?'
+    : currency_dic[convCurrency] || '?';
+
+
   const {name, cost_per_item, items, paying_amount, share} = item;
-  const payingAmountTxt = preatyfyNum(paying_amount) + ' ' + currency_symbol;
-  const costPerItemTxt = preatyfyNum(cost_per_item) + currency_symbol + ' x' + items;
+  const payingAmountTxt = convertAndPreatyfy(paying_amount, currency, convCurrency, exchangeRates) + ' ' + currency_symbol;
+  const costPerItemTxt = convertAndPreatyfy(cost_per_item, currency, convCurrency, exchangeRates) + currency_symbol + ' x' + items;
   const shareTxt = parseInt(share*100) + '%';
   return (
     <div className="billBox-paymentsBox-row">

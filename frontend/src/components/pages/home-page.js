@@ -13,6 +13,15 @@ import AccountBill from '../account-bill';
 
 
 class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currencyConvertationTypes: [null, 'RUB', 'KZT', 'USD', 'EUR'],
+      indexOfCurrentConvType: 0,
+    };
+    this.toggleConv = this.toggleConv.bind(this);
+  }
+
   componentDidMount() {
     const {Service} = this.props;
     this.props.usersDataRequested();
@@ -33,8 +42,16 @@ class HomePage extends Component {
       .catch(err => console.log(err));
   }
 
+  toggleConv() {
+    this.setState(({indexOfCurrentConvType, currencyConvertationTypes}) => {
+      const newIndex = (indexOfCurrentConvType + 1 < currencyConvertationTypes.length)?indexOfCurrentConvType + 1: 0;
+      return {indexOfCurrentConvType: newIndex};
+    });
+  }
+
   render() {
     const {loading, error} = this.props;
+    const convCurrency = this.state.currencyConvertationTypes[this.state.indexOfCurrentConvType];
 
     if (loading) {
       return (
@@ -65,8 +82,8 @@ class HomePage extends Component {
         <AppHeader/>
         <div id="content-wrap">
           <div className="mainBox">
-            <AccountBill/>
-            <AccountTotalBox/>
+            <AccountBill convCurrency={convCurrency} />
+            <AccountTotalBox convCurrency={convCurrency} toggleConv={this.toggleConv}/>
           </div>
         </div>
         <AppFooter/>

@@ -10,13 +10,9 @@ class AccountTotalBox extends Component {
     super(props);
     this.state = {
       rowWithShowBills: -1, //index of extended row
-      currencyConvertationTypes: ['not', 'RUB', 'USD', 'EUR', 'KZT'],
-      indexOfCurrentConvType: 0,
-      exchangeRates: {'RUB': 1, 'USD': 1, 'EUR': 1, 'KZT': 1},
     };
     this.changeRowWithShowBills = this.changeRowWithShowBills.bind(this);
     this.closeSettlements = this.closeSettlements.bind(this);
-    this.toggleConv = this.toggleConv.bind(this);
   }
 
   changeRowWithShowBills(index) {
@@ -32,13 +28,6 @@ class AccountTotalBox extends Component {
       .catch(err => console.log(err));
   }
 
-  toggleConv() {
-    this.setState(({indexOfCurrentConvType, currencyConvertationTypes}) => {
-      const newIndex = (indexOfCurrentConvType + 1 < currencyConvertationTypes.length)?indexOfCurrentConvType + 1: 0;
-      return {indexOfCurrentConvType: newIndex};
-    });
-  }
-
 
   render() {
     if (!this.props.accountData) {
@@ -50,20 +39,19 @@ class AccountTotalBox extends Component {
     }
 
     const {accountData, accountBillEditData, accountStartEditBill, exchangeRates} = this.props;
-    const {indexOfCurrentConvType, currencyConvertationTypes} = this.state;
-    const convCurrency = currencyConvertationTypes[indexOfCurrentConvType];
+    const {convCurrency, toggleConv} = this.props;
     const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
     const currencySymbol = currency_dic[convCurrency] || '?';
 
     return (
       <div className="totalBox">
-        <h2 onClick={this.toggleConv} style={{cursor: 'pointer'}}>
+        <h2 onClick={toggleConv} style={{cursor: 'pointer'}}>
           Account net 
-          { indexOfCurrentConvType != 0 && 
+          { convCurrency && 
             ` ${currencySymbol}`
           }
-          { indexOfCurrentConvType == 0 &&
-            <img src={convertIcon} onClick={this.toggleConv} className="convert-currencies" alt="convert currencies icon"/>
+          { !convCurrency &&
+            <img src={convertIcon} className="convert-currencies" alt="convert currencies icon"/>
           }
         </h2>
         {
@@ -140,7 +128,7 @@ const AccountRow = (props) => {
   const textWithConvCurrencies = `${convCurrenciesSum.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ${currency_dic[convCurrency] || '?'}`;
 
   if (textArrByCurrencies.length == 0) {
-    if (convCurrency != 'not') {
+    if (convCurrency) {
       textArrByCurrencies.push(`0 ${currency_dic[convCurrency] || '?'}`);
     } else {
       textArrByCurrencies.push('0 ₽');
@@ -156,14 +144,14 @@ const AccountRow = (props) => {
             <h4>{name}</h4>
           </div>
           <div className="totalBox-row-NameAndAmount-amount">
-            { convCurrency == 'not' &&
+            { !convCurrency &&
               textArrByCurrencies.map(text => {
                 return (
                   <h4 className='totalBox-row-NameAndAmount-amount' key={text}>{text}</h4>
                 );
               })
             }
-            { convCurrency != 'not' &&
+            { convCurrency &&
               <h4 className='totalBox-row-NameAndAmount-amount'>{textWithConvCurrencies}</h4>
             }
           </div>
@@ -202,13 +190,19 @@ const BillPreviewRow = ({bill, convCurrency, exchangeRates, isCurrent, onClick})
   const formatedDate = bill.date.slice(5); //without year
   const billName = `${bill.name} ${formatedDate}`;
   const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
-  const currency_symbol = (convCurrency == 'not')
+  const currency_symbol = (!convCurrency)
     ? currency_dic[bill.currency] || '?'
     : currency_dic[convCurrency] || '?';
-  const billCost = (convCurrency == 'not')
+
+  const billCost = (!convCurrency)
     ? bill.total
     : bill.total*exchangeRates[`${bill.currency}/RUB`]/exchangeRates[`${convCurrency}/RUB`];
-  const billCostTxt = billCost.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ' + currency_symbol;
+
+  const roundedBillCost = (!convCurrency || convCurrency == bill.currency)
+    ? billCost
+    : billCost.toFixed(2);
+
+  const billCostTxt = roundedBillCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ' + currency_symbol;
   const rowClass = isCurrent?'totalBox-billPreviewRow-current':'totalBox-billPreviewRow';
   return (
     <div className={rowClass} onClick={onClick}>
@@ -254,7 +248,7 @@ const AccountTotalRow = ({accountData, convCurrency, exchangeRates}) => {
   const textWithConvCurrencies = `${convCurrenciesSum.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ${currency_dic[convCurrency] || '?'}`;
 
   if (textArrByCurrencies.length == 0) {
-    if (convCurrency != 'not') {
+    if (convCurrency) {
       textArrByCurrencies.push(`0 ${currency_dic[convCurrency] || '?'}`);
     } else {
       textArrByCurrencies.push('0 ₽');
@@ -269,14 +263,14 @@ const AccountTotalRow = ({accountData, convCurrency, exchangeRates}) => {
           <h4 className="bold">Total</h4>
         </div>
         <div className="totalBox-row-NameAndAmount-amount">
-          { convCurrency == 'not' &&
+          { !convCurrency &&
             textArrByCurrencies.map(text => {
               return (
                 <h4 className='totalBox-row-NameAndAmount-amount bold' key={text}>{text}</h4>
               );
             })
           }
-          { convCurrency != 'not' &&
+          { convCurrency &&
             <h4 className='totalBox-row-NameAndAmount-amount bold'>{textWithConvCurrencies}</h4>
           }
         </div>
