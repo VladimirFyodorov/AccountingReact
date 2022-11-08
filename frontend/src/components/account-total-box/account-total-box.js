@@ -102,8 +102,7 @@ const AccountRow = (props) => {
   const { data, index, rowWithShowBills, changeRowWithShowBills } = props;
   const { accountStartEditBill, accountBillEditData, closeSettlements } = props;
   const { convCurrency, exchangeRates } = props;
-  const { id, name, total, bills } = data;
-  const btnText = (total<0)?'Pay':'Receive';
+  const { id, name, bills } = data;
   const showBillsText = (rowWithShowBills==index)?'Hide bills':'Show bills';
   const currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'};
 
@@ -120,10 +119,12 @@ const AccountRow = (props) => {
     return strTotal + ' ' + currency_symbol;
   });
 
-  const convCurrenciesSum = Object.entries(totalGroupedByCurency).reduce((acc, [currency, total]) => {
 
-    return acc + total*exchangeRates[`${currency}/RUB`]/exchangeRates[`${convCurrency}/RUB`] || 0;
+  const convToRUBSum = Object.entries(totalGroupedByCurency).reduce((acc, [currency, total]) => {
+    return acc + total*exchangeRates[`${currency}/RUB`] || 0;
   }, 0);
+  const btnText = (convToRUBSum < 0) ? 'Pay': 'Receive';
+  const convCurrenciesSum = convToRUBSum/exchangeRates[`${convCurrency}/RUB`] || 0;
 
   const textWithConvCurrencies = `${convCurrenciesSum.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ${currency_dic[convCurrency] || '?'}`;
 
