@@ -19,7 +19,7 @@ def formatNumber(amount):
     return(amount_formated)
 
 
-def send_emails(user, counteragent, amount, comment = '', test = False):
+def send_emails(user, counteragent, totals_dic, test = False, comment = ''):
 
     msg_to_user = EmailMessage()
     msg_to_counteragent = EmailMessage()
@@ -27,34 +27,40 @@ def send_emails(user, counteragent, amount, comment = '', test = False):
     msg_to_user['Subject'] = "TEST Payment" if test else "Payment"
     msg_to_counteragent['Subject'] = "TEST Payment" if test else "Payment"
 
+    currency_dic = {'RUB': '₽', 'USD': '$', 'EUR': '€', 'KZT': '₸'}
+    totals_str = ''
+    for key in totals_dic:
+        if totals_dic[key] != 0:
+            totals_str += 'payed ' if totals_dic[key] < 0 else 'received '
+            totals_str += f'{formatNumber(totals_dic[key])}{currency_dic[key]}, '
+
+    totals_str = totals_str[:-2] # remove last ", "
 
     content_to_user = """
     Hi, {}!
 
-    You have closed mutual settlements with {} and {} {} rub.
+    You have closed mutual settlements with {} and {}.
 
     {}
 
     This message was automatically generated please do not reply.
     """.format(user.first_name
             , counteragent.first_name
-            , 'payed' if amount < 0 else 'received'
-            , formatNumber(amount)
+            , totals_str
             , comment)
     
 
     content_to_counteragent = """
     Hi, {}!
 
-    {} have closed mutual settlements with you and {} {} rub.
+    {} have closed mutual settlements with you and {}.
 
     {}
 
     This message was automatically generated please do not reply.
     """.format(counteragent.first_name
             , user.first_name
-            , 'payed' if amount < 0 else 'received'
-            , formatNumber(amount)
+            , totals_str
             , comment)
 
     msg_to_user.set_content(content_to_user)

@@ -293,6 +293,7 @@ def get_account_data(request):
 def close_settlements(request):
     user = request.user
     counteragent_id = request.data["counteragentId"]
+    convCurrency = request.data["convCurrency"]
 
 
     try:
@@ -300,26 +301,65 @@ def close_settlements(request):
     except get_user_model().DoesNotExist:
         return JsonResponse({'message': 'The user does not exist'}, status=status.HTTP_404_NOT_FOUND)
     
-    total = 0
+    
+    
+    totals_dic = {'RUB': 0, 'KZT': 0, 'USD': 0, 'EUR': 0}
     # total_lst = []
 
     for bill in Bill.objects.filter(lender = user).all():
         for item in Item.objects.filter(bill = bill).all():
             for payment in Item_Payment.objects.filter(item = item).filter(payer = counteragent).filter(is_payed = False).filter(paying_part__gt = 0).all():
-                total += payment.paying_amount
+                totals_dic[bill.currency] += payment.paying_amount
                 # total_lst.append([payment.id, payment.paying_amount])
                 Item_Payment.objects.filter(id = payment.id).update(is_payed = True)
 
     for bill in Bill.objects.filter(lender = counteragent).all():
         for item in Item.objects.filter(bill = bill).all():
             for payment in Item_Payment.objects.filter(item = item).filter(payer = user).filter(is_payed = False).filter(paying_part__gt = 0).all():
-                total -= payment.paying_amount
+                totals_dic[bill.currency] -= payment.paying_amount
                 # total_lst.append([payment.id, -payment.paying_amount])
                 Item_Payment.objects.filter(id = payment.id).update(is_payed = True)
     
+    # fetching exchange rates (code from get_exchange_rates view)
+    URL = 'https://www.cbr.ru/scripts/XML_daily.asp'
+    r = requests.get(url = URL)
+    responseXml = ET.fromstring(r.content.decode("windows-1251"))
+
+    USD_nominal_rate = responseXml.find("*[@ID='R01235']").find("Value").text
+    USD_nominal = responseXml.find("*[@ID='R01235']").find("Nominal").text
+    USD_rate = float(USD_nominal_rate.replace(',', '.'))/float(USD_nominal.replace(',', '.'))
+
+    EUR_nominal_rate = responseXml.find("*[@ID='R01239']").find("Value").text
+    EUR_nominal = responseXml.find("*[@ID='R01239']").find("Nominal").text
+    EUR_rate = float(EUR_nominal_rate.replace(',', '.'))/float(EUR_nominal.replace(',', '.'))
+
+    KZT_nominal_rate = responseXml.find("*[@ID='R01335']").find("Value").text
+    KZT_nominal = responseXml.find("*[@ID='R01335']").find("Nominal").text
+    KZT_rate = float(KZT_nominal_rate.replace(',', '.'))/float(KZT_nominal.replace(',', '.'))
+
+    exchange_rates = {"RUB/RUB": 1, "USD/RUB": USD_rate, "EUR/RUB": EUR_rate, "KZT/RUB": KZT_rate}
+
+    # converting
+    if convCurrency != None:
+
+        # sum all converted to RUB
+        convTotal = 0
+        for key in totals_dic:
+            convTotal += totals_dic[key]*exchange_rates[f'{key}/RUB']
+
+        # converting sum from RUB to convCurrency
+        convTotal = convTotal/exchange_rates[f'{convCurrency}/RUB']
+
+        # changing totals_dic
+        totals_dic = {f'{convCurrency}': convTotal}
+
+
+
     # sending email
-    # test mode se.send_emails(user, counteragent, total, total_lst, True)
-    se.send_emails(user, counteragent, total)
+    ### test mode
+    # se.send_emails(user, counteragent, totals_dic, True)
+    ### prod mode
+    se.send_emails(user, counteragent, totals_dic)
 
     return JsonResponse({'message': 'Mutual settlements are successfully closed'}, status=status.HTTP_200_OK) 
 

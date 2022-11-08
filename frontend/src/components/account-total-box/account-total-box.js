@@ -22,8 +22,8 @@ class AccountTotalBox extends Component {
     });
   }
 
-  closeSettlements(id) {
-    this.props.Service.closeSettlements({counteragentId: id})
+  closeSettlements(id, convCurrency) {
+    this.props.Service.closeSettlements({counteragentId: id, convCurrency})
       .then(() => this.props.closeSettlements(id))
       .catch(err => console.log(err));
   }
@@ -164,7 +164,7 @@ const AccountRow = (props) => {
           </h5>
           <button 
             className="totalBox-row-btns-pay"
-            onClick={() => closeSettlements(id)}>{btnText}</button>
+            onClick={() => closeSettlements(id, convCurrency)}>{btnText}</button>
         </div>
       </div>
       {rowWithShowBills==index &&
