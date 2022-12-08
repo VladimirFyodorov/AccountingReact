@@ -1,4 +1,4 @@
-export const mokeStoreState = {
+export const mockStoreState = {
   loading: true,
   error: false,
   usersData: [],
