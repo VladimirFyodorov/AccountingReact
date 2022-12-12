@@ -20,10 +20,10 @@ class Bill(models.Model):
     def _is_payed(self):
         "Returns true if it has payments and all payments are payed"
         all_items = Item.objects.filter(bill = self).all()
-        Payed_payments = Item_Payment.objects.filter(item__in = all_items).filter(is_payed = True).all()
-        All_payments = Item_Payment.objects.filter(item__in = all_items).all()
+        All_not_null_payments = Item_Payment.objects.filter(item__in = all_items).exclude(paying_part = 0.0).count()
+        Unpayed_not_null_payments = Item_Payment.objects.filter(item__in = all_items).exclude(paying_part = 0.0).filter(is_payed = False).count()
 
-        if All_payments and (list(All_payments) == list(Payed_payments)):
+        if All_not_null_payments > 0 and Unpayed_not_null_payments == 0:
             return True
         else:
             return False
